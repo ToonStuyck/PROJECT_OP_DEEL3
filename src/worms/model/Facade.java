@@ -1,134 +1,24 @@
 package worms.model;
+
 import java.util.Collection;
 import java.util.Random;
 
+import worms.gui.game.IActionHandler;
+import worms.model.programs.ParseOutcome;
 
-import worms.model.IFacade;
-import worms.model.Worm;
-
-public  class Facade implements IFacade {
+public class Facade implements IFacade{
+	
 	/**
 	 * constructor for Facade.
 	 */
 	public Facade() {
 	}
 	/**
-	 * Checks whether a given worm can turn over a given angel.
-	 */
-	@Override
-	public boolean canTurn(Worm worm, double angle) {
-		return worm.isValidTurn(angle);
-	}
-	/**
-	 * Turns a given worm over a given angel.
-	 */
-	@Override
-	public void turn(Worm worm, double angle) {
-		worm.turn(angle);
-	}
-	/**
-	 * Get the x- and y-position of a given worm that's jumping at a given time t,
-	 *  after the jump started.
-	 */
-	@Override
-	public double[] getJumpStep(Worm worm, double t) {
-		try {
-			return worm.jumpStep(t);
-		} catch (IllegalStateException exc) {
-			throw new ModelException("can't jump");
-		}
-	}
-	/**
-	 * Get a worm's x-position.
-	 */
-	@Override
-	public double getX(Worm worm) {
-		return worm.getXpos();
-	}
-	/**
-	 * Get a worm's y-position.
-	 */
-	@Override
-	public double getY(Worm worm) {
-		return worm.getYpos();
-	}
-	/**
-	 * Get a worm's orientation.
-	 */
-	@Override
-	public double getOrientation(Worm worm) {
-		return worm.getDirection();
-	}
-	/**
-	 * Get a worms radius.
-	 */
-	@Override
-	public double getRadius(Worm worm) {
-		return worm.getRadius();
-	}
-	/**
-	 * Set the radius of the given worm to the given radius.
-	 */
-	@Override
-	public void setRadius(Worm worm, double newRadius) {
-		try {
-			worm.setRadius(newRadius);
-		} catch (IllegalArgumentException exc) {
-			throw new ModelException("not a valid radius");
-		}
-	}
-	/**
-	 * Get the minimal allowed radius of a given worm.
-	 */
-	@Override
-	public double getMinimalRadius(Worm worm) {
-		return worm.getRadiusLowerBound();
-	}
-	/**
-	 * Get the amount of actionpoints of a given worm.
-	 */
-	@Override
-	public int getActionPoints(Worm worm) {
-		return worm.getActionPoints();
-	}
-	/**
-	 * Get the maximum allowed amount of actionpoints of a given worm.
-	 */
-	@Override
-	public int getMaxActionPoints(Worm worm) {
-		return worm.getMaxActionPoints();
-	}
-	/**
-	 * Get the name of a given worm.
-	 */
-	@Override
-	public String getName(Worm worm) {
-		return worm.getName();
-	}
-	/**
-	 * Give a worm a new name.
-	 */
-	@Override
-	public void rename(Worm worm, String newName) {
-		try {
-			worm.setName(newName);
-		} catch (IllegalArgumentException exc) {
-			throw new ModelException("that name is not valid");
-		}
-	}
-	/**
-	 * Get the mass of a given worm.
-	 */
-	@Override
-	public double getMass(Worm worm) {
-		return worm.getMass();
-	}
-	/**
 	 * Adds a new empty team with name newName if the name is valid and 
 	 * the maximum number of teams hasn't been reached jet.
 	 */
 	@Override
-	public void addEmptyTeam(World world, String newName) {	
+	public void addEmptyTeam(World world, String newName) {
 		try {
 			if (world.canAddAsTeam(newName)) {
 				new Team(world, newName);
@@ -148,11 +38,12 @@ public  class Facade implements IFacade {
 		new Food(world);
 	}
 	/**
-	 * Adds a new worm object to the world.
+	 * Adds a food object to the world.
 	 */
 	@Override
-	public void addNewWorm(World world) {
-		new Worm(world);	
+	public void addNewWorm(World world, Program program) {
+		// TODO Auto-generated method stub
+		
 	}
 	/**
 	 * Checks whether or not a worm can fall
@@ -167,6 +58,13 @@ public  class Facade implements IFacade {
 	@Override
 	public boolean canMove(Worm worm) {
 		return worm.isValidStep();
+	}
+	/**
+	 * Checks whether a given worm can turn over a given angel.
+	 */
+	@Override
+	public boolean canTurn(Worm worm, double angle) {
+		return worm.isValidTurn(angle);
 	}
 	/**
 	 * Creates a new Food Object in the world with a given position.
@@ -193,12 +91,9 @@ public  class Facade implements IFacade {
 	 */
 	@Override
 	public Worm createWorm(World world, double x, double y, double direction,
-			double radius, String name) throws ModelException {
-		try {
-			return new Worm(world,x,y,direction,radius, name);
-		} catch (IllegalArgumentException exc) {
-			throw new ModelException("One of the given vaulues is not valid.");
-		}
+			double radius, String name, Program program) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	/**
 	 * Makes the given worm fall.
@@ -210,6 +105,13 @@ public  class Facade implements IFacade {
 		} catch (IllegalArgumentException exc) {
 			throw new ModelException("not allowed to fall");
 		}
+	}
+	/**
+	 * Get the amount of actionpoints of a given worm.
+	 */
+	@Override
+	public int getActionPoints(Worm worm) {
+		return worm.getActionPoints();
 	}
 	/**
 	 * Returns the projectile that is active in the world.
@@ -252,6 +154,18 @@ public  class Facade implements IFacade {
 		}
 	}
 	/**
+	 * Get the x- and y-position of a given worm that's jumping at a given time t,
+	 *  after the jump started.
+	 */
+	@Override
+	public double[] getJumpStep(Worm worm, double t) {
+		try {
+			return worm.jumpStep(t);
+		} catch (IllegalStateException exc) {
+			throw new ModelException("can't jump");
+		}
+	}
+	/**
 	 * Get the time it takes the given projectile to jump.
 	 */
 	@Override
@@ -274,11 +188,46 @@ public  class Facade implements IFacade {
 		}
 	}
 	/**
+	 * Get the mass of a given worm.
+	 */
+	@Override
+	public double getMass(Worm worm) {
+		return worm.getMass();
+	}
+	/**
+	 * Get the maximum allowed amount of actionpoints of a given worm.
+	 */
+	@Override
+	public int getMaxActionPoints(Worm worm) {
+		return worm.getMaxActionPoints();
+	}
+	/**
 	 * Returns the maximum hit points of a worm.
 	 */
 	@Override
 	public int getMaxHitPoints(Worm worm) {
 		return worm.getMaxHitPoints();
+	}
+	/**
+	 * Get the minimal allowed radius of a given worm.
+	 */
+	@Override
+	public double getMinimalRadius(Worm worm) {
+		return worm.getRadiusLowerBound();
+	}
+	/**
+	 * Get the name of a given worm.
+	 */
+	@Override
+	public String getName(Worm worm) {
+		return worm.getName();
+	}
+	/**
+	 * Get a worm's orientation.
+	 */
+	@Override
+	public double getOrientation(Worm worm) {
+		return worm.getDirection();
 	}
 	/**
 	 * Returns the radius of a food object.
@@ -293,6 +242,13 @@ public  class Facade implements IFacade {
 	@Override
 	public double getRadius(Projectile projectile) {
 		return projectile.getRadius();
+	}
+	/**
+	 * Get a worms radius.
+	 */
+	@Override
+	public double getRadius(Worm worm) {
+		return worm.getRadius();
 	}
 	/**
 	 * Returns the selected weapon.
@@ -337,6 +293,13 @@ public  class Facade implements IFacade {
 		return projectile.getXpos();
 	}
 	/**
+	 * Get a worm's x-position.
+	 */
+	@Override
+	public double getX(Worm worm) {
+		return worm.getXpos();
+	}
+	/**
 	 * Gets the food's y-position.
 	 */
 	@Override
@@ -351,8 +314,12 @@ public  class Facade implements IFacade {
 		return projectile.getYpos();
 	}
 	/**
-	 * Returns whether a food object is active.
+	 * Get a worm's y-position.
 	 */
+	@Override
+	public double getY(Worm worm) {
+		return worm.getYpos();
+	}
 	@Override
 	public boolean isActive(Food food) {
 		return food.isActive();
@@ -428,11 +395,33 @@ public  class Facade implements IFacade {
 		}
 	}
 	/**
+	 * Give a worm a new name.
+	 */
+	@Override
+	public void rename(Worm worm, String newName) {
+		try {
+			worm.setName(newName);
+		} catch (IllegalArgumentException exc) {
+			throw new ModelException("that name is not valid");
+		}
+	}
+	/**
 	 * Makes a worm select the next weapon available.
 	 */
 	@Override
 	public void selectNextWeapon(Worm worm) {
 		worm.selectNextWeapon();
+	}
+	/**
+	 * Set the radius of the given worm to the given radius.
+	 */
+	@Override
+	public void setRadius(Worm worm, double newRadius) {
+		try {
+			worm.setRadius(newRadius);
+		} catch (IllegalArgumentException exc) {
+			throw new ModelException("not a valid radius");
+		}
 	}
 	/**
 	 * Makes a worm shoot with a given yield.
@@ -461,4 +450,31 @@ public  class Facade implements IFacade {
 	public void startNextTurn(World world) {
 		world.startNextTurn();
 	}
+	/**
+	 * Turns a given worm over a given angel.
+	 */
+	@Override
+	public void turn(Worm worm, double angle) {
+		worm.turn(angle);
+	}
+
+	@Override
+	public ParseOutcome<?> parseProgram(String programText,
+			IActionHandler handler) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hasProgram(Worm worm) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isWellFormed(Program program) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
