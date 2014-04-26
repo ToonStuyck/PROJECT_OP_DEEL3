@@ -1,6 +1,3 @@
-/**
- * 
- */
 package worms.model;
 
 import java.util.ArrayList;
