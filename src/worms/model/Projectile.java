@@ -84,6 +84,7 @@ public class Projectile extends Object{
 		this.setForce(worm);
 		this.setDamage(worm);
 	}
+	Weapon weapon = new Weapon();
 	/**
 	 * Deletes the projectile from the given world.
 	 * @param 	world
@@ -252,12 +253,13 @@ public class Projectile extends Object{
 	 * 			|	else (new.getDamage() == 80)
 	 */
 	@Raw
-	private void setDamage(Worm worm){
+	public void setDamage(Worm worm){
 		if (worm.getSelectedWeapon() == "Rifle"){
 			this.damage = 20;
 		} else {
 			this.damage = 80;
 		}
+		
 	}
 	/**
 	 * Returns the damage a projectile will inflict 
@@ -461,7 +463,8 @@ public class Projectile extends Object{
 			    		
 			    		overlappingWorm = w;
 			    		while ((this.getActive()==true)){
-			    			overlappingWorm.setHitPoints(overlappingWorm.getHitPoints()-this.getDamage());
+			    			System.out.println(this.damage);
+			    			overlappingWorm.setHitPoints(overlappingWorm.getHitPoints()-this.damage);
 							this.deleteProjectile(world);
 							this.setActive(false);
 			    		}
@@ -486,7 +489,7 @@ public class Projectile extends Object{
 			throw new IllegalStateException();
 		}
 	}
-
+	
 	// Variables
 	private double wormRadius;
 	private double radius;

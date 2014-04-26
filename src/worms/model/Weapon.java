@@ -125,6 +125,7 @@ public class Weapon {
 	}
 	/**
 	 * The method sets the damage the weapon will inflict.
+	 * @return 
 	 */
 	@Raw
 	private void setDamage(){
@@ -139,6 +140,7 @@ public class Weapon {
 	 */
 	@Basic @Raw
 	public int getDamage(){
+		System.out.println("ede " +damage);
 		return this.damage;
 	}
 	/**
@@ -154,9 +156,16 @@ public class Weapon {
 	public void changeWeapon(){
 		if (this.name == "Rifle"){
 			this.setName("Bazooka");
+			this.setCost();
+			this.setDamage();
+			System.out.println("2" +this.name + this.damage);
 		}  else {
 			this.setName("Rifle");
+			this.setCost();
+			this.setDamage();
+			System.out.println("3" +this.name + this.damage);
 		}
+		System.out.println("einde " +this.name + this.damage);
 	}
 	
 	// Variables

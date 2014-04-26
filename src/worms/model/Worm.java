@@ -1246,10 +1246,7 @@ public class Worm extends Object {
 	}
 	@Raw
 	private void setCost(){
-		if (this.getSelectedWeapon() == "Rifle")
-			this.cost = 10;
-		else 
-			this.cost = 50;
+		this.cost = weapon.getCost();
 	}
 	@Raw
 	public int getCost(){
