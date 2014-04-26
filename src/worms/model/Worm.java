@@ -83,7 +83,7 @@ public class Worm extends Object {
 	 * 			|new.getRadiusLowerBound() ==  0.25
 	 */
 	@Raw
-	public Worm(World world, double xpos, double ypos, double direction, double radius, String name){
+	public Worm(World world, double xpos, double ypos, double direction, double radius, String name, Program program){
 		super(world);
 		this.position = new Position(xpos, ypos);
 		this.setDirection(direction);
@@ -129,7 +129,7 @@ public class Worm extends Object {
 	 * 			|new.getRadiusLowerBound() ==  0.25
 	 */
 	@Raw
-	public Worm(World world){
+	public Worm(World world, Program program){
 		super(world);
 		Random perimeter = world.getPerimeter();
 		this.setRadius(radiusLowerBound);
@@ -1237,12 +1237,7 @@ public class Worm extends Object {
 	 */
 	@Raw
 	private boolean canShoot(){
-		if (this.getSelectedWeapon()=="Rifle"){
-			this.cost = 10;
-		}
-		else {
-			this.cost = 50;
-		}
+		this.setCost();
 		if (((this.getActionPoints()- this.cost) >=0) && (!this.getWorld().isImpassable(this.getXpos(), this.getYpos(), this.getRadius())))
 
 			return true;
@@ -1252,7 +1247,7 @@ public class Worm extends Object {
 	@Raw
 	private void setCost(){
 		if (this.getSelectedWeapon() == "Rifle")
-			this.cost = 20;
+			this.cost = 10;
 		else 
 			this.cost = 50;
 	}
@@ -1288,7 +1283,7 @@ public class Worm extends Object {
 				World world = this.getWorld();
 				this.setPropulsionYield(yield);
 				new Projectile(world,this.getXpos(),this.getYpos(),this);
-				this.setActionPoints(this.getActionPoints()-this.getCost());
+				this.setActionPoints(this.getActionPoints()-this.cost);
 			}
 		}
 	}

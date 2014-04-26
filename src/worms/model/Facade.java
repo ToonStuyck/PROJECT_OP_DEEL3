@@ -38,11 +38,15 @@ public class Facade implements IFacade{
 		new Food(world);
 	}
 	/**
-	 * Adds a food object to the world.
+	 * Create and add a new worm to the given world.
+	 * The new worm must be placed at a random adjacent location.
+	 * The new worm can have an arbitrary (but valid) radius and direction.
+	 * The new worm may (but isn't required to) have joined a team.
+	 * The worm must behave according to the provided program, or is controlled by the player if the given program is null.
 	 */
 	@Override
 	public void addNewWorm(World world, Program program) {
-		// TODO Auto-generated method stub
+		new Worm(world, program);
 		
 	}
 	/**
@@ -92,8 +96,11 @@ public class Facade implements IFacade{
 	@Override
 	public Worm createWorm(World world, double x, double y, double direction,
 			double radius, String name, Program program) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return new Worm(world,x,y,direction,radius, name, program);
+		} catch (IllegalArgumentException exc) {
+			throw new ModelException("One of the given vaulues is not valid.");
+		}
 	}
 	/**
 	 * Makes the given worm fall.
