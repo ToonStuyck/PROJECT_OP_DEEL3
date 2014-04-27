@@ -457,11 +457,10 @@ public class Projectile extends Object{
 			    	Worm overlappingWorm = null;
 			    	double maxDistance = this.getRadius() + w.getRadius();
 			    	
-			    	if (!(w==world.getCurrentWorm()) && (Math.sqrt(Math.pow(w.getXpos()-tempXpos, 2)+
-			    			Math.pow(w.getYpos()-tempYpos, 2))< maxDistance)) {
-			    		
+			    	if ((!(w==world.getCurrentWorm())) && (Math.sqrt(Math.pow(w.getXpos()-tempXpos, 2)+
+			    			Math.pow(w.getYpos()-tempYpos, 2))< maxDistance) && this.getActive()==true) {
 			    		overlappingWorm = w;
-			    		while ((this.getActive()==true)){
+			    		if ((this.getActive()==true)){
 			    			overlappingWorm.setHitPoints(overlappingWorm.getHitPoints()-this.damage);
 							this.deleteProjectile(world);
 							this.setActive(false);
@@ -475,7 +474,7 @@ public class Projectile extends Object{
 						}
 					
 			    		else if (((world.isImpassable(tempXpos, tempYpos, this.getRadius()))) && (this.getActive()==true)){
-							this.deleteProjectile(world);
+			    			this.deleteProjectile(world);
 							this.setActive(false);	
 						}
 			    	}
