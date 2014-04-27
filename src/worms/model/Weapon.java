@@ -48,10 +48,7 @@ public class Weapon {
 	@Raw
 	public Weapon(){
 		this.setName("Rifle");
-		this.setMass();
-		this.setForce();
 		this.setCost();
-		this.setDamage();
 	}
 	/**
 	 * Sets the name of the weapon.
@@ -68,42 +65,6 @@ public class Weapon {
 	@Basic @Raw
 	public String getName(){
 		return this.name;
-	}
-	/**
-	 * The method sets the mass of the weapon.
-	 */
-	@Raw
-	private void setMass(){
-		if (this.name == "Rifle"){
-			this.mass = 10;
-		} else {
-			this.mass = 300;
-		}
-	}
-	/**
-	 * The method gets the mass of the weapon.
-	 */
-	@Basic @Raw
-	public int getMass(){
-		return this.mass;
-	}
-	/**
-	 * The method sets the force that is exerted by the weapon.
-	 */
-	@Raw
-	private void setForce(){
-		if (this.name == "Rifle"){
-			this.force = 1.5;
-		} else {
-			this.force = 2.5+(worm.getPropulsionYield()*0.07);
-		}
-	}
-	/**
-	 * The method returns the force that is exerted by the weapon.
-	 */
-	@Basic @Raw
-	public double getForce(){
-		return this.force;
 	}
 	/**
 	 * The method sets the cost of action points to use the weapon.
@@ -124,26 +85,6 @@ public class Weapon {
 		return this.cost;
 	}
 	/**
-	 * The method sets the damage the weapon will inflict.
-	 * @return 
-	 */
-	@Raw
-	private void setDamage(){
-		if (this.name == "Rifle"){
-			this.damage = 20;
-		} else {
-			this.damage = 80;
-		}
-	}
-	/**
-	 * The method returns the damage the weapon will inflict.
-	 */
-	@Basic @Raw
-	public int getDamage(){
-		System.out.println("ede " +damage);
-		return this.damage;
-	}
-	/**
 	 * The method makes you change between the two weapons.
 	 * @post	If the current weapon is the Rifle, the weapon will change to the Bazooka
 	 * 				and if the current weapon is the Bazooka it will change in to the RIfle.
@@ -157,25 +98,13 @@ public class Weapon {
 		if (this.name == "Rifle"){
 			this.setName("Bazooka");
 			this.setCost();
-			this.setDamage();
-			System.out.println("2" +this.name + this.damage);
 		}  else {
 			this.setName("Rifle");
 			this.setCost();
-			this.setDamage();
-			System.out.println("3" +this.name + this.damage);
 		}
-		System.out.println("einde " +this.name + this.damage);
 	}
 	
 	// Variables
-	private Worm worm;
 	private String name;
-	private int mass;
-	private double force;
 	private int cost;
-	private int damage;
-	
-
-
 }

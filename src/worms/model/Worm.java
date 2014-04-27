@@ -1206,13 +1206,6 @@ public class Worm extends Object {
 		return this.propulsion;
 	}
 	/**
-	 * This method returns the mass of the projectile of the selected weapon.
-	 */
-	@Raw
-	public int getMassProjectile(){
-		return weapon.getMass();
-	}
-	/**
 	 * This method returns the name of the selected weapon.
 	 */
 	@Raw

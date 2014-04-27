@@ -259,7 +259,6 @@ public class Projectile extends Object{
 		} else {
 			this.damage = 80;
 		}
-		
 	}
 	/**
 	 * Returns the damage a projectile will inflict 
@@ -463,7 +462,6 @@ public class Projectile extends Object{
 			    		
 			    		overlappingWorm = w;
 			    		while ((this.getActive()==true)){
-			    			System.out.println(this.damage);
 			    			overlappingWorm.setHitPoints(overlappingWorm.getHitPoints()-this.damage);
 							this.deleteProjectile(world);
 							this.setActive(false);
