@@ -2,6 +2,9 @@ package worms.model;
 
 public class Program {
 
-	//Ik haat github :(
-	// werk?
+	public Program(Program program) {
+		this.program = program;
+	}
+
+	public String program;
 }

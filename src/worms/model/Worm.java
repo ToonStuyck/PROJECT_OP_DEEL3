@@ -92,6 +92,8 @@ public class Worm extends Object {
 		this.setActionPoints(maxActionPoints);
 		this.setHitPoints(maxHitPoints);
 		this.setTeamRandom();
+		this.program = program;
+		//this.program = new Program(program);
 	}
 	/**
 	 * Initialize a worm in a given world, 
@@ -139,7 +141,18 @@ public class Worm extends Object {
 		this.setActionPoints(this.getMaxActionPoints());
 		this.setHitPoints(this.getMaxHitPoints());
 		this.setTeamRandom();
+		this.program = program;
+		//this.program = new Program(program);
 		
+	}
+	
+	public Program program;
+	
+	/**
+	 * Returns True is the Worm has a program different from null;
+	 */
+	public boolean hasProgram() {
+		return this.program != null;
 	}
 	
 	/**

@@ -5,9 +5,10 @@ import java.util.Random;
 
 import worms.gui.game.IActionHandler;
 import worms.model.programs.ParseOutcome;
+import worms.model.programs.ProgramParser;
 
 public class Facade implements IFacade{
-	
+
 	/**
 	 * constructor for Facade.
 	 */
@@ -468,14 +469,12 @@ public class Facade implements IFacade{
 	@Override
 	public ParseOutcome<?> parseProgram(String programText,
 			IActionHandler handler) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean hasProgram(Worm worm) {
-		// TODO Auto-generated method stub
-		return false;
+		return worm.hasProgram();
 	}
 
 	@Override
