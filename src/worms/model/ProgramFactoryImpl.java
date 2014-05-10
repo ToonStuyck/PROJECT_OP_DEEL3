@@ -2,16 +2,12 @@ package worms.model;
 
 import java.util.List;
 
-import worms.model.Program.BooneanExpression;
 import worms.model.programs.BooleanExpression;
+import worms.model.programs.Entity;
+import worms.model.programs.EntityExpression;
 import worms.model.programs.ProgramFactory;
 
 class Expression {
-
-	public void createDoubleLiteral(int line, int column, double d) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
 
@@ -28,15 +24,13 @@ public class ProgramFactoryImpl implements
 
 	@Override
 	public Expression createDoubleLiteral(int line, int column, double d) {
-		
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Expression createBooleanLiteral(int line, int column, boolean b) {
-		BooneanExpression exp = new BooleanExpression(b);
-		return BooleanExpression.getExpression();
-		
+		// TODO Auto-generated method stub
 		return null;
 	}
 
