@@ -447,7 +447,7 @@ public class Worm extends Object {
 	 * 			|	new.getDirection() == direction % (2*Pi)
 	 */
 	@Raw
-	private void setDirection(double direction){
+	public void setDirection(double direction){
 		assert (isValidDirection(direction));
 		double newDirection = (direction % (2*Math.PI));
 		if (newDirection < 0) 
