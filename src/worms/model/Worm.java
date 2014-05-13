@@ -1220,13 +1220,10 @@ public class Worm extends Object {
 	 */
 	@Raw
 	public void selectNextWeapon(){
-		if (this.canToggleWeapon()) {
 			weapon.changeWeapon();
-		}
+	
 	}
-	public boolean canToggleWeapon() {
-		return true;
-	}
+	
 	/**
 	 * This method checks whether a worm can shoot and sets the cost.
 	 * @return	True if the cost to use the weapon is smaller then 
