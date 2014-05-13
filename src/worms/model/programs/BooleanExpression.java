@@ -4,10 +4,6 @@ public abstract class BooleanExpression implements Expression<Boolean>{
 	
 
 	@Override
-	public abstract Boolean getExpression();
+	public abstract Boolean getExpression(Expression<?> e);
 	
-	@Override
-    public final Class<Boolean> getType() {
-        return Boolean.class;
-    }
 }
