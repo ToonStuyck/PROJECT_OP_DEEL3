@@ -2,7 +2,9 @@ package worms.model.programs;
 
 public class LogicExpression extends PartExpression {
 	
-	public LogicExpression(
+	public LogicExpression(){
+		
+	}
 	
 	public boolean getLeftValue() {
 		return this.getLeftExpression().getValue();

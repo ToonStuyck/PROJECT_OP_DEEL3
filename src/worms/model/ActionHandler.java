@@ -7,32 +7,27 @@ public class ActionHandler implements IActionHandler{
 
 	@Override
 	public boolean turn(Worm worm, double angle) {
-		
-		return false;
+		return worm.isValidTurn(angle);
 	}
 
 	@Override
 	public boolean move(Worm worm) {
-		// TODO Auto-generated method stub
-		return false;
+		return (worm.isValidStep() && worm.canMove());
 	}
 
 	@Override
 	public boolean jump(Worm worm) {
-		// TODO Auto-generated method stub
-		return false;
+		return worm.canJump();
 	}
 
 	@Override
 	public boolean fire(Worm worm, int propulsion) {
-		// TODO Auto-generated method stub
-		return false;
+		return (worm.isValidPropulsion(propulsion) && worm.canShoot());
 	}
 
 	@Override
 	public boolean toggleWeapon(Worm worm) {
-		// TODO Auto-generated method stub
-		return false;
+		return worm.canToggleWeapon();
 	}
 
 	@Override

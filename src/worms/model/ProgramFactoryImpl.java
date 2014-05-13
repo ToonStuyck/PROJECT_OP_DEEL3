@@ -3,7 +3,7 @@ package worms.model;
 import java.util.List;
 
 import worms.model.programs.BooleanExpression;
-import worms.model.programs.Entity;
+import worms.model.programs.DoubleExpression;
 import worms.model.programs.EntityExpression;
 import worms.model.programs.ProgramFactory;
 
@@ -67,15 +67,25 @@ public class ProgramFactoryImpl implements
 	}
 
 	@Override
-	public Expression createGetX(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+	public DoubleExpression createGetX(int line, int column, final Expression e) {
+		return new DoubleExpression() {
+            @Override
+            public Double getExpression() {
+                
+                return ((Entity) e.getExpression()).getXpos();
+            }
+        };
 	}
 
 	@Override
-	public Expression createGetY(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+	public DoubleExpression createGetY(int line, int column, final Expression e) {
+		return new DoubleExpression() {
+            @Override
+            public Double getExpression() {
+                
+                return ((Entity) e.getExpression()).getYpos();
+            }
+        };
 	}
 
 	@Override

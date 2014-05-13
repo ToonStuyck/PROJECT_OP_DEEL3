@@ -32,6 +32,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @version 2.0
  */
 public class Worm extends Object {
+	
 	/**
 	 * Initialize a worm in a given world, 
 	 * with a x-and y-position (meters), direction (radians), radius (meters) and a name.
@@ -92,6 +93,7 @@ public class Worm extends Object {
 		this.setActionPoints(maxActionPoints);
 		this.setHitPoints(maxHitPoints);
 		this.setTeamRandom();
+		this.program = program;
 	}
 	/**
 	 * Initialize a worm in a given world, 
@@ -139,6 +141,7 @@ public class Worm extends Object {
 		this.setActionPoints(this.getMaxActionPoints());
 		this.setHitPoints(this.getMaxHitPoints());
 		this.setTeamRandom();
+		
 		
 	}
 	
@@ -917,7 +920,7 @@ public class Worm extends Object {
 	 * 	and adjacent to impassable terrain.
 	 */
 	@Raw
-	private boolean canMove() {
+	public boolean canMove() {
 		World world = this.getWorld();
 		return world.isAdjacent(this.getXpos(), this.getYpos(), this.getRadius());
 	}
@@ -1060,7 +1063,7 @@ public class Worm extends Object {
 	 * Checks whether the worms still has actionpoints is placed in passable terrain.
 	 */
 	@Raw
-	private boolean canJump() {
+	public boolean canJump() {
 		World world = this.getWorld();
 		return ((this.getActionPoints() > 0) && world.isPassable(this.getXpos(), this.getYpos(), this.getRadius()));
 	}
@@ -1180,7 +1183,7 @@ public class Worm extends Object {
 	 * @return	True if the propulsion is between 0 and 100.
 	 */
 	@Raw
-	private boolean isValidPropulsion(int propulsion) {
+	public boolean isValidPropulsion(int propulsion) {
 		return (propulsion >= 0 && propulsion <= 100);
 	}
 	/**
@@ -1217,7 +1220,12 @@ public class Worm extends Object {
 	 */
 	@Raw
 	public void selectNextWeapon(){
-		weapon.changeWeapon();
+		if (this.canToggleWeapon()) {
+			weapon.changeWeapon();
+		}
+	}
+	public boolean canToggleWeapon() {
+		return true;
 	}
 	/**
 	 * This method checks whether a worm can shoot and sets the cost.
@@ -1229,7 +1237,7 @@ public class Worm extends Object {
 	 * 			| !this.getWorld().isImpassable(this.getXpos(),this.getYpos(),this.getRadius()) 
 	 */
 	@Raw
-	private boolean canShoot(){
+	public boolean canShoot(){
 		this.setCost();
 		if (((this.getActionPoints()- this.cost) >=0) && (!this.getWorld().isImpassable(this.getXpos(), this.getYpos(), this.getRadius())))
 
@@ -1294,6 +1302,7 @@ public class Worm extends Object {
 	private boolean alive;
 	private int propulsion;
 	private int cost;
+	private Program program;
 	//constants
 	private static final int DENSITY = 1062;
 	private static final double G = 9.80665;
