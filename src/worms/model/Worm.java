@@ -93,7 +93,7 @@ public class Worm extends Object {
 		this.setActionPoints(maxActionPoints);
 		this.setHitPoints(maxHitPoints);
 		this.setTeamRandom();
-		this.program = program;
+		this.program = new Program(this);
 	}
 	/**
 	 * Initialize a worm in a given world, 

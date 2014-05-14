@@ -4,6 +4,8 @@ import java.util.List;
 
 
 
+
+import worms.model.programs.ActionHandler;
 import worms.model.programs.Expression;
 import worms.model.programs.Statement;
 import worms.model.programs.Type;
@@ -60,56 +62,73 @@ public class ProgramFactoryImpl implements
 
 	@Override
 	public Expression createSelf(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Object self = actionHandler.getIFacade().getCurrentWorm();
+		return expr;
 	}
 
 	@Override
 	public Expression createGetX(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Object obj = (Object) e.getPartExpression().getValue();
+		expr.createPartExpressionDoubleLiteral(obj.getXpos());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetY(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Object obj = (Object) e.getPartExpression().getValue();
+		expr.createPartExpressionDoubleLiteral(obj.getYpos());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetRadius(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Object obj = (Object) e.getPartExpression().getValue();
+		expr.createPartExpressionDoubleLiteral(obj.getRadius());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetDir(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Worm obj = (Worm) e.getPartExpression().getValue();
+		expr.createPartExpressionDoubleLiteral(obj.getDirection());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetAP(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Worm obj = (Worm) e.getPartExpression().getValue();
+		expr.createPartExpressionDoubleLiteral(obj.getActionPoints());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetMaxAP(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Worm obj = (Worm) e.getPartExpression().getValue();
+		expr.createPartExpressionDoubleLiteral(obj.getMaxActionPoints());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetHP(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Worm obj = (Worm) e.getPartExpression().getValue();
+		expr.createPartExpressionDoubleLiteral(obj.getHitPoints());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetMaxHP(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Worm obj = (Worm) e.getPartExpression().getValue();
+		expr.createPartExpressionDoubleLiteral(obj.getMaxHitPoints());
+		return expr;
 	}
 
 	@Override
@@ -126,14 +145,18 @@ public class ProgramFactoryImpl implements
 
 	@Override
 	public Expression createIsWorm(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Object obj = (Object) e.getPartExpression().getValue();
+		expr.createPartExpressionBooleanLiteral(obj instanceof Worm);
+		return expr;
 	}
 
 	@Override
 	public Expression createIsFood(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Object obj = (Object) e.getPartExpression().getValue();
+		expr.createPartExpressionBooleanLiteral(obj instanceof Food);
+		return expr;
 	}
 
 	@Override
@@ -152,89 +175,102 @@ public class ProgramFactoryImpl implements
 	@Override
 	public Expression createLessThan(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareLessThan(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createGreaterThan(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareGreaterThan(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createLessThanOrEqualTo(int line, int column,
 			Expression e1, Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareLessThanOrEqual(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createGreaterThanOrEqualTo(int line, int column,
 			Expression e1, Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareGreaterThanOrEqual(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createEquality(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareEquality(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createInequality(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareInequality(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createAdd(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathAdd(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createSubtraction(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathSubtraction(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createMul(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathMul(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createDivision(int line, int column, Expression e1,
 			Expression e2) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathDivision(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createSqrt(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathSqrt(e);
+		return expr;
 	}
 
 	@Override
 	public Expression createSin(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathSin(e);
+		return expr;
 	}
 
 	@Override
 	public Expression createCos(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathCos(e);
+		return expr;
 	}
 
 	@Override
@@ -246,20 +282,23 @@ public class ProgramFactoryImpl implements
 
 	@Override
 	public Statement createMove(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementMove();
+		return stmnt;
 	}
 
 	@Override
 	public Statement createJump(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementJump();
+		return stmnt;
 	}
 
 	@Override
 	public Statement createToggleWeap(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementToggleWeap();
+		return stmnt;
 	}
 
 	@Override
