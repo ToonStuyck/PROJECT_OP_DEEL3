@@ -1,5 +1,7 @@
 package worms.model.programs;
 
+import worms.model.Object;
+
 public class Expression {
 	
 	public Expression(int line, int column) {
@@ -38,6 +40,10 @@ public class Expression {
 	
 	public void createPartExpressionLogicNull() {
 		partExpression = new LogicNull();
+	}
+	
+	public void createPartExpressionSelf(Object self) {
+		partExpression = new Self(self);
 		
 	}
 	
@@ -165,6 +171,17 @@ public class Expression {
 		}
 	}
 
+	public class Self extends PartExpressionObject {
+		
+		public Self(Object self) {
+			this.object = self;
+		}
+		
+		public Object getValue() {
+			return (Object) this.getObjectValue();
+		}
+	}
+	
 	public class CompareLessThan extends PartExpressionCompare {
 		
 		public CompareLessThan(Expression e1, Expression e2) {
@@ -318,6 +335,8 @@ public class Expression {
 			return Math.cos((Double) getExpression().getPartExpression().getValue());
 		}
 	}
+
+
 
 
 

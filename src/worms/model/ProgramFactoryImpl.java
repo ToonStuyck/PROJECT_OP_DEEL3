@@ -16,6 +16,16 @@ import worms.model.programs.ProgramFactory;
 public class ProgramFactoryImpl implements
 		ProgramFactory<Expression, Statement, Type> {
 
+	public Program program;
+	
+	public Program getProgram() {
+		return this.program;
+	}
+	
+	public void setProgram(Program program) {
+		this.program = program;
+	}
+	
 	@Override
 	public Expression createDoubleLiteral(int line, int column, double d) {
 		Expression expr = new Expression(line, column);
@@ -63,7 +73,9 @@ public class ProgramFactoryImpl implements
 	@Override
 	public Expression createSelf(int line, int column) {
 		Expression expr = new Expression(line, column);
-		Object self = actionHandler.getIFacade().getCurrentWorm();
+		Object self = getProgram().getWorm();
+		expr.createPartExpressionSelf(self);
+		
 		return expr;
 	}
 
