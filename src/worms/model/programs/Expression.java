@@ -19,11 +19,11 @@ public class Expression {
 	
 	
 	public void createPartExpressionDoubleLiteral(double d) {
-		partExpression = new DoubleLiteral(d);
+		partExpression = new DoubleLiteral(d/*, this*/);
 	}
 	
 	public void createPartExpressionBooleanLiteral(boolean b) {
-		partExpression = new BooleanLiteral(b);	
+		partExpression = new BooleanLiteral(b/*, this*/);	
 	}	
 	
 	public void createPartExpressionLogicAnd(Expression e1, Expression e2) {
@@ -102,25 +102,31 @@ public class Expression {
 		partExpression = new MathCos(e);
 	}
 	
-	public class DoubleLiteral extends PartExpressionDouble {
+	public class DoubleLiteral extends PartExpression {
 		
-		public DoubleLiteral(double d) {
+		public DoubleLiteral(double d/*, Expression reference*/) {
 			this.value = d;
+			//this.reference = reference;
 		}
 		
+		public double value;
+		
 		public Double getValue() {
-			return getDoubleValue();
+			return this.value;
 		}
 	}
 	
-	public class BooleanLiteral extends PartExpressionBoolean {
+	public class BooleanLiteral extends PartExpression {
 		
-		public BooleanLiteral(boolean b) {
+		public BooleanLiteral(boolean b/*, Expression reference*/) {
 			this.value = b;
+		//	this.reference = reference;
 		}
 		
+		public boolean value;
+		
 		public Boolean getValue() {
-			return getBooleanValue();
+			return this.value;
 		}
 	}
 	
@@ -153,11 +159,11 @@ public class Expression {
 	public class LogicNot extends PartExpressionLogic {
 		
 		public LogicNot(Expression e) {
-			this.expression = e;
+			this.left = e;
 		}
 		
 		public Boolean getValue() {
-			return ! getLogicValue();
+			return ! getLeftValue();
 		}
 	}
 	

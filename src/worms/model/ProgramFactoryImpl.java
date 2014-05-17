@@ -16,14 +16,7 @@ import worms.model.programs.ProgramFactory;
 public class ProgramFactoryImpl implements
 		ProgramFactory<Expression, Statement, Type> {
 
-	public Program program;
-	
-	public Program getProgram() {
-		return this.program;
-	}
-	
-	public void setProgram(Program program) {
-		this.program = program;
+	public ProgramFactoryImpl() {
 	}
 	
 	@Override
