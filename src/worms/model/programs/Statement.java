@@ -32,6 +32,14 @@ public class Statement {
 	public void createPartStatementToggleWeap() {
 		partStatement = new ActionToggleWeap();
 	}
+	
+	public void createPartStatementFire() {
+		partStatement = new ActionFire();
+	}
+	
+	public void createPartStatementSkip() {
+		partStatement = new ActionSkip();
+	}
 
 	
 	public class ActionTurn extends PartStatementAction {
@@ -63,5 +71,62 @@ public class Statement {
 		}
 	}
 	
+	public class ActionFire extends PartStatementAction {
+		
+		public ActionFire() {
+		}
+	}
+
+	public class ActionSkip extends PartStatementAction {
+	
+		public ActionSkip() {
+		}
+	}
+
+	
+	
+	public void createPartStatementAssignment(String variableName,
+			Expression rhs) {
+		this.partStatement = new Assignment(variableName, rhs);
+	}
+	
+	public void createPartStatementIf(Expression condition, Statement then,
+			Statement otherwise) {
+		this.partStatement = new If(condition, then, otherwise);
+	}
+	
+	public void createPartStatementWhile(Expression condition, Statement body) {
+		this.partStatement = new While(condition, body);
+	}
+	
+	public class Assignment extends PartStatement{
+		public Assignment(String variableName, Expression rhs){
+			this.name = variableName;
+			this.value = rhs;
+		}
+		
+		public String name;
+		public Expression value;
+	}
+	
+	public class If extends PartStatement{
+		public If(Expression condition, Statement then, Statement otherwise){
+			this.condition = condition;
+			this.then = then;
+			this.otherwise = otherwise;
+		}
+		
+		public Expression condition;
+		public Statement then;
+		public Statement otherwise;
+	}
+	
+	public class While extends PartStatement{
+		public While(Expression condition, Statement body){
+			this.body = body;
+		}
+		
+		public Statement body;
+	}
 
 }

@@ -136,10 +136,18 @@ public class ProgramFactoryImpl implements
 		return expr;
 	}
 
+	/**
+	 * TODO current worm
+	 */
 	@Override
 	public Expression createSameTeam(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		Worm obj = (Worm) e.getPartExpression().getValue();
+		Worm programExecutingWorm = null;
+		boolean outcome = (programExecutingWorm.getTeam() == obj.getTeam());
+		//current worm...
+		expr.createPartExpressionBooleanLiteral(outcome);
+		return expr;
 	}
 
 	@Override
@@ -308,35 +316,40 @@ public class ProgramFactoryImpl implements
 
 	@Override
 	public Statement createFire(int line, int column, Expression yield) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementFire(yield);
+		return stmnt;
 	}
 
 	@Override
 	public Statement createSkip(int line, int column) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementSkip();
+		return stmnt;
 	}
 
 	@Override
 	public Statement createAssignment(int line, int column,
 			String variableName, Expression rhs) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementAssignment(variableName, rhs);
+		return stmnt;
 	}
 
 	@Override
 	public Statement createIf(int line, int column, Expression condition,
 			Statement then, Statement otherwise) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementIf(condition, then, otherwise);
+		return stmnt;
 	}
 
 	@Override
 	public Statement createWhile(int line, int column, Expression condition,
 			Statement body) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementWhile(condition, body);
+		return stmnt;
 	}
 
 	@Override
@@ -350,8 +363,9 @@ public class ProgramFactoryImpl implements
 	@Override
 	public Statement createSequence(int line, int column,
 			List<Statement> statements) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementSequence(statements);
+		return stmnt;
 	}
 
 	@Override

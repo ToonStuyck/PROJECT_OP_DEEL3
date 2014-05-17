@@ -1,6 +1,6 @@
 package worms.model.programs;
 
-public class PartExpressionBoolean extends PartExpression{
+public abstract class PartExpressionBoolean extends PartExpression{
 	
 	protected Boolean value;
 	

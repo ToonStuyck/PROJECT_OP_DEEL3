@@ -1,6 +1,6 @@
 package worms.model.programs;
 
-public class PartExpressionDouble extends PartExpression{
+public abstract class PartExpressionDouble extends PartExpression{
 
 	protected Double value;
 	

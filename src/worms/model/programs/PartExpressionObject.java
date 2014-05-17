@@ -1,6 +1,6 @@
 package worms.model.programs;
 
-public class PartExpressionObject extends PartExpression {
+public abstract class PartExpressionObject extends PartExpression {
 	
 	protected Object object;
 	
