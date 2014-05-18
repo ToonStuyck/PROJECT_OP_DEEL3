@@ -1,10 +1,18 @@
 package worms.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
+import org.antlr.v4.runtime.RecognitionException;
+
 import worms.gui.game.IActionHandler;
+import worms.model.programs.Expression;
 import worms.model.programs.ParseOutcome;
+import worms.model.programs.ProgramParser;
+import worms.model.programs.Statement;
+import worms.model.programs.Type;
 
 public class Facade implements IFacade{
 	
@@ -47,7 +55,6 @@ public class Facade implements IFacade{
 	@Override
 	public void addNewWorm(World world, Program program) {
 		new Worm(world, program);
-		
 	}
 	/**
 	 * Checks whether or not a worm can fall
@@ -468,13 +475,26 @@ public class Facade implements IFacade{
 	@Override
 	public ParseOutcome<?> parseProgram(String programText,
 			IActionHandler handler) {
-		
-		return null;
+		ProgramFactoryImpl factory = new ProgramFactoryImpl();
+	    ProgramParser<Expression, Statement, Type> parser = new ProgramParser<>(factory);
+	    try {
+	        parser.parse(programText);
+	        List<String> errors = parser.getErrors();
+	        if(! errors.isEmpty()) {
+	          return ParseOutcome.failure(errors);
+	        } else {
+	          return ParseOutcome.success(new Program(parser.getGlobals(), parser.getStatement()));
+	        }
+	    } catch(RecognitionException e) {
+	    	List<String> errors = new ArrayList<String>();
+	    	errors.add(e.getMessage());
+	      return ParseOutcome.failure(errors);
+	    }
 	}
 
 	@Override
 	public boolean hasProgram(Worm worm) {
-		return false;
+		return worm.hasProgram();
 	}
 
 	@Override
