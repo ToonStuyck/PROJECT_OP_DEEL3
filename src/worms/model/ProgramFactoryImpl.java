@@ -1,5 +1,6 @@
 package worms.model;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -8,10 +9,14 @@ import java.util.List;
 
 
 
+
+import java.util.Map;
+
 import worms.model.programs.ActionHandler;
 import worms.model.programs.Statement;
 import worms.model.programs.ProgramFactory;
 import worms.model.programs.Expression.Expression;
+import worms.model.programs.Type.BooleanType;
 import worms.model.programs.Type.EntityType;
 import worms.model.programs.Type.Type;
 
@@ -185,8 +190,9 @@ public class ProgramFactoryImpl implements
 
 	@Override
 	public Expression createVariableAccess(int line, int column, String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionVariableAcces(name, getProgram().getGlobals());
+		return expr;
 	}
 
 	@Override
@@ -300,42 +306,42 @@ public class ProgramFactoryImpl implements
 	@Override
 	public Statement createTurn(int line, int column, Expression angle) {
 		Statement stmnt = new Statement(line, column);
-		stmnt.createPartStatementTurn(angle);
+		stmnt.createPartStatementTurn(angle, getProgram());
 		return stmnt;
 	}
 
 	@Override
 	public Statement createMove(int line, int column) {
 		Statement stmnt = new Statement(line, column);
-		stmnt.createPartStatementMove();
+		stmnt.createPartStatementMove(getProgram());
 		return stmnt;
 	}
 
 	@Override
 	public Statement createJump(int line, int column) {
 		Statement stmnt = new Statement(line, column);
-		stmnt.createPartStatementJump();
+		stmnt.createPartStatementJump(getProgram());
 		return stmnt;
 	}
 
 	@Override
 	public Statement createToggleWeap(int line, int column) {
 		Statement stmnt = new Statement(line, column);
-		stmnt.createPartStatementToggleWeap();
+		stmnt.createPartStatementToggleWeap(getProgram());
 		return stmnt;
 	}
 
 	@Override
 	public Statement createFire(int line, int column, Expression yield) {
 		Statement stmnt = new Statement(line, column);
-		stmnt.createPartStatementFire(yield);
+		stmnt.createPartStatementFire(yield, getProgram());
 		return stmnt;
 	}
 
 	@Override
 	public Statement createSkip(int line, int column) {
 		Statement stmnt = new Statement(line, column);
-		stmnt.createPartStatementSkip();
+		stmnt.createPartStatementSkip(getProgram());
 		return stmnt;
 	}
 
@@ -343,7 +349,7 @@ public class ProgramFactoryImpl implements
 	public Statement createAssignment(int line, int column,
 			String variableName, Expression rhs) {
 		Statement stmnt = new Statement(line, column);
-		stmnt.createPartStatementAssignment(variableName, rhs);
+		stmnt.createPartStatementAssignment(variableName, rhs, getProgram());
 		return stmnt;
 	}
 
@@ -367,8 +373,9 @@ public class ProgramFactoryImpl implements
 	public Statement createForeach(int line, int column,
 			worms.model.programs.ProgramFactory.ForeachType type,
 			String variableName, Statement body) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementForEach(type, variableName, body, getProgram());
+		return stmnt;
 	}
 
 	@Override

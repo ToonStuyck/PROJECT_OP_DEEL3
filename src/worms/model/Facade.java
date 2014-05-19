@@ -483,7 +483,7 @@ public class Facade implements IFacade{
 	        if(! errors.isEmpty()) {
 	          return ParseOutcome.failure(errors);
 	        } else {
-	          return ParseOutcome.success(new Program(parser.getGlobals(), parser.getStatement(), factory));
+	          return ParseOutcome.success(new Program(parser.getGlobals(), parser.getStatement(), factory, handler));
 	        }
 	    } catch(RecognitionException e) {
 	    	List<String> errors = new ArrayList<String>();

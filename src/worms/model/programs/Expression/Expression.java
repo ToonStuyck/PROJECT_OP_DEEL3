@@ -1,11 +1,15 @@
 package worms.model.programs.Expression;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import worms.model.Food;
 import worms.model.Object;
 import worms.model.Worm;
 import worms.model.programs.Type.BooleanType;
 import worms.model.programs.Type.DoubleType;
 import worms.model.programs.Type.EntityType;
+import worms.model.programs.Type.Type;
 
 public class Expression {
 	
@@ -56,8 +60,11 @@ public class Expression {
 		
 	}
 	
-	
-	
+	public void createPartExpressionVariableAcces(String name,
+			Map<String, Type> globals) {
+		this.partExpression = new VariableAcces(name,globals);
+		
+	}
 	
 	public void createPartExpressionCompareLessThan(Expression e1, Expression e2) {
 		partExpression = new CompareLessThan(e1, e2);
@@ -244,159 +251,215 @@ public class Expression {
 		}
 	}
 	
-	public class CompareLessThan extends PartExpressionCompare {
+	public class VariableAcces extends PartExpression {
+		
+		public VariableAcces(String name, Map<String,Type> globals) {
+			this.name = name;
+			this.globals =  new HashMap<String, Type>(globals);
+		}
+	
+		public String name;
+		public Map<String,Type> globals;
+		
+		public Type getValue(){
+			return this.globals.get(this.name);
+		}
+	}
+	
+	public class CompareLessThan extends BooleanExpression {
 		
 		public CompareLessThan(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (DoubleLiteral) e1.getPartExpression();
+			this.right = (DoubleLiteral) e2.getPartExpression();
 		}
 		
-		public Boolean getValue() {
-			return getLeftValue() < getRightValue();
+		public DoubleLiteral left;
+		public DoubleLiteral right;
+		
+		public BooleanType getValue() {
+			return new BooleanType(this.left.getValue().getValue() < this.right.getValue().getValue());
 		}
 	}
 
-	public class CompareGreaterThan extends PartExpressionCompare {
+	public class CompareGreaterThan extends BooleanExpression {
 		
 		public CompareGreaterThan(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (DoubleLiteral) e1.getPartExpression();
+			this.right = (DoubleLiteral) e2.getPartExpression();
 		}
 		
-		public Boolean getValue() {
-			return getLeftValue() > getRightValue();
+		public DoubleLiteral left;
+		public DoubleLiteral right;
+		
+		public BooleanType getValue() {
+			return new BooleanType(this.left.getValue().getValue() > this.right.getValue().getValue());
 		}
 	}
 
 	
-	public class CompareLessThanOrEqual extends PartExpressionCompare {
+	public class CompareLessThanOrEqual extends BooleanExpression {
 		
 		public CompareLessThanOrEqual(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (DoubleLiteral) e1.getPartExpression();
+			this.right = (DoubleLiteral) e2.getPartExpression();
 		}
 		
-		public Boolean getValue() {
-			return getLeftValue() <= getRightValue();
+		public DoubleLiteral left;
+		public DoubleLiteral right;
+		
+		public BooleanType getValue() {
+			return new BooleanType(this.left.getValue().getValue() <= this.right.getValue().getValue());
 		}
 	}
 	
-	public class CompareGreaterThanOrEqual extends PartExpressionCompare {
+	public class CompareGreaterThanOrEqual extends BooleanExpression {
 		
 		public CompareGreaterThanOrEqual(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (DoubleLiteral) e1.getPartExpression();
+			this.right = (DoubleLiteral) e2.getPartExpression();
 		}
 		
-		public Boolean getValue() {
-			return getLeftValue() >= getRightValue();
+		public DoubleLiteral left;
+		public DoubleLiteral right;
+		
+		public BooleanType getValue() {
+			return new BooleanType(this.left.getValue().getValue() >= this.right.getValue().getValue());
 		}
 	}
 
-	public class CompareEquality extends PartExpressionCompare {
+	public class CompareEquality extends BooleanExpression {
 		
 		public CompareEquality(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (DoubleLiteral) e1.getPartExpression();
+			this.right = (DoubleLiteral) e2.getPartExpression();
 		}
 		
-		public Boolean getValue() {
-			return getLeftValue() == getRightValue();
+		public DoubleLiteral left;
+		public DoubleLiteral right;
+		
+		public BooleanType getValue() {
+			return new BooleanType(this.left.getValue().getValue() == this.right.getValue().getValue());
 		}
 	}
 	
-	public class CompareInequality extends PartExpressionCompare {
+	public class CompareInequality extends BooleanExpression {
 		
 		public CompareInequality(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (DoubleLiteral) e1.getPartExpression();
+			this.right = (DoubleLiteral) e2.getPartExpression();
 		}
 		
-		public Boolean getValue() {
-			return getLeftValue() != getRightValue();
+		public DoubleLiteral left;
+		public DoubleLiteral right;
+		
+		public BooleanType getValue() {
+			return new BooleanType(this.left.getValue().getValue() != this.right.getValue().getValue());
 		}
 	}
 
-	public class MathAdd extends PartExpressionMath {
+	public class MathAdd extends DoubleBinaryExpression {
 		
 		public MathAdd(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (DoubleLiteral) e1.getPartExpression();
+			this.right = (DoubleLiteral) e2.getPartExpression();
 		}
 		
-		public Double getValue() {
-			return getLeftValue() + getRightValue();
+		public DoubleLiteral left;
+		public DoubleLiteral right;
+		
+		public DoubleType getValue() {
+			return new DoubleType(this.left.getValue().getValue() + this.right.getValue().getValue());
 		}
 	}
 
-	public class MathSubtraction extends PartExpressionMath {
+	public class MathSubtraction extends DoubleBinaryExpression {
 		
 		public MathSubtraction(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (DoubleLiteral) e1.getPartExpression();
+			this.right = (DoubleLiteral) e2.getPartExpression();
 		}
 		
-		public Double getValue() {
-			return getLeftValue() - getRightValue();
+		public DoubleLiteral left;
+		public DoubleLiteral right;
+		
+		public DoubleType getValue() {
+			return new DoubleType(this.left.getValue().getValue() - this.right.getValue().getValue());
 		}
 	}
 
-	public class MathMul extends PartExpressionMath {
+	public class MathMul extends DoubleBinaryExpression {
 	
 		public MathMul(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (DoubleLiteral) e1.getPartExpression();
+			this.right = (DoubleLiteral) e2.getPartExpression();
 		}
 		
-		public Double getValue() {
-			return getLeftValue() * getRightValue();
-			}
+		public DoubleLiteral left;
+		public DoubleLiteral right;
+		
+		public DoubleType getValue() {
+			return new DoubleType(this.left.getValue().getValue() * this.right.getValue().getValue());
+		}
 	}
 
-	public class MathDivision extends PartExpressionMath {
+	public class MathDivision extends DoubleBinaryExpression {
 	
 		public MathDivision(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (DoubleLiteral) e1.getPartExpression();
+			this.right = (DoubleLiteral) e2.getPartExpression();
 		}
 		
-		public Double getValue() {
-			return getLeftValue() / getRightValue();
+		public DoubleLiteral left;
+		public DoubleLiteral right;
+		
+		public DoubleType getValue() {
+			return new DoubleType(this.left.getValue().getValue() / this.right.getValue().getValue());
 		}
 	}
 	
-	public class MathSqrt extends PartExpressionMath {
+	public class MathSqrt extends DoubleUnaryExpression {
 		
 		public MathSqrt(Expression e) {
-			this.expression = e;
+			this.subject = (DoubleLiteral) e.getPartExpression();
 		}
 		
-		public Double getValue() {
-			return Math.sqrt((Double) getExpression().getPartExpression().getValue());
+		public DoubleLiteral subject;
+		
+		public DoubleType getValue() {
+			return new DoubleType(Math.sqrt(this.subject.getValue().getValue()));
 		}
 	}
 	
-	public class MathSin extends PartExpressionMath {
+	public class MathSin extends DoubleUnaryExpression {
 		
 		public MathSin(Expression e) {
-			this.expression = e;
+			this.subject = (DoubleLiteral) e.getPartExpression();
 		}
 		
-		public Double getValue() {
-			return Math.sin((Double) getExpression().getPartExpression().getValue());
+		public DoubleLiteral subject;
+		
+		public DoubleType getValue() {
+			return new DoubleType(Math.sin(this.subject.getValue().getValue()));
 		}
 	}
 	
-	public class MathCos extends PartExpressionMath {
+	public class MathCos extends DoubleUnaryExpression {
 		
 		public MathCos(Expression e) {
-			this.expression = e;
+			this.subject = (DoubleLiteral) e.getPartExpression();
 		}
 		
-		public Double getValue() {
-			return Math.cos((Double) getExpression().getPartExpression().getValue());
+		public DoubleLiteral subject;
+		
+		public DoubleType getValue() {
+			return new DoubleType(Math.cos(this.subject.getValue().getValue()));
 		}
 	}
+	
+	
+		
+	}
+	
 
 	
 
@@ -406,4 +469,3 @@ public class Expression {
 
 	
 
-}

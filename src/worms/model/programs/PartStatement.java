@@ -1,5 +1,7 @@
 package worms.model.programs;
 
-public class PartStatement {
+public abstract class PartStatement{
+
+	public abstract void execute();
 
 }
