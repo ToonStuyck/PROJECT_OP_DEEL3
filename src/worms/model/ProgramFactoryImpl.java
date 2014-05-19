@@ -388,8 +388,9 @@ public class ProgramFactoryImpl implements
 
 	@Override
 	public Statement createPrint(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementPrint(e);
+		return stmnt;
 	}
 
 	@Override

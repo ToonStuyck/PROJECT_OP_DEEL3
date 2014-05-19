@@ -1,5 +1,8 @@
 package worms.model.programs;
 
+import java.util.List;
+
+import worms.model.Food;
 import worms.model.Program;
 import worms.model.Worm;
 import worms.model.programs.ProgramFactory.ForeachType;
@@ -160,7 +163,14 @@ public class Statement {
 			worms.model.programs.ProgramFactory.ForeachType type,
 			String variableName, Statement body, Program program) {
 		this.partStatement = new ForEach(type, variableName, body, program);
-		
+	}
+	
+	public void createPartStatementSequence(List<Statement> statements) {
+		this.partStatement = new Sequence(statements);
+	}
+	
+	public void createPartStatementPrint(Expression e) {
+		this.partStatement = new Print(e);
 	}
 	
 	
@@ -240,12 +250,51 @@ public class Statement {
 		public void execute() {
 			if (this.type == ForeachType.WORM) {
 				for ( Worm worm: program.getWorm().getWorld().getWorms()) {
+					this.program.getGlobals().put(this.name, new EntityType<Worm>(worm));
 					this.body.getPartStatement().execute();
-					new EntityType<Worm>(this.program.getGlobals().get(this.name));
 				}
-				
+			} else if (this.type == ForeachType.FOOD) {
+				for ( Food food: program.getWorm().getWorld().getFood()) {
+					this.program.getGlobals().put(this.name, new EntityType<Food>(food));
+					this.body.getPartStatement().execute();
+				}	
+			} else {
+				for ( Object object: program.getWorm().getWorld().getAllObjects()) {
+					this.program.getGlobals().put(this.name, new EntityType<Object>(object));
+					this.body.getPartStatement().execute();
+				}
+			}
 		}
 	}
+	
+	public class Sequence extends PartStatement {
+
+		public Sequence(List<Statement> statements) {
+			this.statements = statements;
+		}
+		
+		public List<Statement> statements;
+		
+		@Override
+		public void execute() {
+			for (int i=0; i<this.statements.size(); i++) {
+				statements.get(i).getPartStatement().execute();
+			}
+		}
+	}
+	
+	public class Print extends PartStatement {
+
+		public Print(Expression e) {
+			this.value = e;
+		}
+		
+		public Expression value;
+		
+		@Override
+		public void execute() {
+			System.out.println(this.value.getPartExpression().getValue());
+		}
 	}
 }
 
