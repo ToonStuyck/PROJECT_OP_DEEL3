@@ -1,4 +1,4 @@
-package worms.model.programs;
+package worms.model.programs.Expression;
 
 public abstract class PartExpressionObject extends PartExpression {
 	

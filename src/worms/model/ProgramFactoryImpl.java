@@ -5,11 +5,15 @@ import java.util.List;
 
 
 
+
+
+
 import worms.model.programs.ActionHandler;
-import worms.model.programs.Expression;
 import worms.model.programs.Statement;
-import worms.model.programs.Type;
 import worms.model.programs.ProgramFactory;
+import worms.model.programs.Expression.Expression;
+import worms.model.programs.Type.EntityType;
+import worms.model.programs.Type.Type;
 
 
 
@@ -18,6 +22,17 @@ public class ProgramFactoryImpl implements
 
 	public ProgramFactoryImpl() {
 	}
+	
+	public void setProgram(Program program) {
+		this.program = program;
+	}
+	
+	public Program program;
+	
+	public Program getProgram() {
+		return this.program;
+	}
+
 	
 	@Override
 	public Expression createDoubleLiteral(int line, int column, double d) {
@@ -66,94 +81,90 @@ public class ProgramFactoryImpl implements
 	@Override
 	public Expression createSelf(int line, int column) {
 		Expression expr = new Expression(line, column);
-		Object self = getProgram().getWorm();
-		expr.createPartExpressionSelf(self);
-		
+		expr.createPartExpressionSelf(this.getProgram().getWorm());
 		return expr;
 	}
 
 	@Override
 	public Expression createGetX(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Object obj = (Object) e.getPartExpression().getValue();
-		expr.createPartExpressionDoubleLiteral(obj.getXpos());
+		EntityType<Object> obj = new EntityType<Object>((Object) e.getPartExpression().getValue());
+		expr.createPartExpressionDoubleLiteral(obj.getValue().getXpos());
 		return expr;
 	}
 
 	@Override
 	public Expression createGetY(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Object obj = (Object) e.getPartExpression().getValue();
-		expr.createPartExpressionDoubleLiteral(obj.getYpos());
+		EntityType<Object> obj = new EntityType<Object>((Object) e.getPartExpression().getValue());
+		expr.createPartExpressionDoubleLiteral(obj.getValue().getYpos());
 		return expr;
 	}
 
 	@Override
 	public Expression createGetRadius(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Object obj = (Object) e.getPartExpression().getValue();
-		expr.createPartExpressionDoubleLiteral(obj.getRadius());
+		EntityType<Object> obj = new EntityType<Object>((Object) e.getPartExpression().getValue());
+		expr.createPartExpressionDoubleLiteral(obj.getValue().getRadius());
 		return expr;
 	}
 
 	@Override
 	public Expression createGetDir(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Worm obj = (Worm) e.getPartExpression().getValue();
-		expr.createPartExpressionDoubleLiteral(obj.getDirection());
+		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
+		expr.createPartExpressionDoubleLiteral(worm.getValue().getDirection());
 		return expr;
 	}
 
 	@Override
 	public Expression createGetAP(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Worm obj = (Worm) e.getPartExpression().getValue();
-		expr.createPartExpressionDoubleLiteral(obj.getActionPoints());
+		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
+		expr.createPartExpressionDoubleLiteral(worm.getValue().getActionPoints());
 		return expr;
 	}
 
 	@Override
 	public Expression createGetMaxAP(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Worm obj = (Worm) e.getPartExpression().getValue();
-		expr.createPartExpressionDoubleLiteral(obj.getMaxActionPoints());
+		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
+		expr.createPartExpressionDoubleLiteral(worm.getValue().getMaxActionPoints());
 		return expr;
 	}
 
 	@Override
 	public Expression createGetHP(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Worm obj = (Worm) e.getPartExpression().getValue();
-		expr.createPartExpressionDoubleLiteral(obj.getHitPoints());
+		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
+		expr.createPartExpressionDoubleLiteral(worm.getValue().getHitPoints());
 		return expr;
 	}
 
 	@Override
 	public Expression createGetMaxHP(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Worm obj = (Worm) e.getPartExpression().getValue();
-		expr.createPartExpressionDoubleLiteral(obj.getMaxHitPoints());
+		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
+		expr.createPartExpressionDoubleLiteral(worm.getValue().getMaxHitPoints());
 		return expr;
 	}
 
-	/**
-	 * TODO current worm
-	 */
 	@Override
 	public Expression createSameTeam(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Worm obj = (Worm) e.getPartExpression().getValue();
-		Worm programExecutingWorm = null;
-		boolean outcome = (programExecutingWorm.getTeam() == obj.getTeam());
-		//current worm...
+		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
+		EntityType<Worm> programExecutingWorm = new EntityType<Worm>(this.getProgram().getWorm());
+		boolean outcome = (programExecutingWorm.getValue().getTeam() == worm.getValue().getTeam());
 		expr.createPartExpressionBooleanLiteral(outcome);
 		return expr;
 	}
 
 	@Override
 	public Expression createSearchObj(int line, int column, Expression e) {
-		// TODO Auto-generated method stub
-		return null;
+		Expression expr = new Expression(line, column);
+		EntityType<Worm> programExecutingWorm = new EntityType<Worm>(this.getProgram().getWorm());
+		expr.createpartExpressionSearchObject(e, programExecutingWorm.getValue());
+		return expr;
 	}
 
 	@Override
@@ -392,6 +403,7 @@ public class ProgramFactoryImpl implements
 		return null;
 	}
 
+	
 	
 
 	

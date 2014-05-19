@@ -1,6 +1,11 @@
-package worms.model.programs;
+package worms.model.programs.Expression;
 
+import worms.model.Food;
 import worms.model.Object;
+import worms.model.Worm;
+import worms.model.programs.Type.BooleanType;
+import worms.model.programs.Type.DoubleType;
+import worms.model.programs.Type.EntityType;
 
 public class Expression {
 	
@@ -42,8 +47,12 @@ public class Expression {
 		partExpression = new LogicNull();
 	}
 	
-	public void createPartExpressionSelf(Object self) {
+	public void createPartExpressionSelf(Worm self) {
 		partExpression = new Self(self);
+	}
+	
+	public void createpartExpressionSearchObject(Expression e, Worm programExecutingWorm) {
+		partExpression = new SearchObject(e, programExecutingWorm);
 		
 	}
 	
@@ -102,89 +111,136 @@ public class Expression {
 		partExpression = new MathCos(e);
 	}
 	
-	public class DoubleLiteral extends PartExpression {
+	public class DoubleLiteral extends DoubleBasicExpression {
 		
-		public DoubleLiteral(double d/*, Expression reference*/) {
-			this.value = d;
-			//this.reference = reference;
+		public DoubleLiteral(double d) {
+			this.value = new DoubleType(d);
 		}
 		
-		public double value;
+		public DoubleType value;
 		
-		public Double getValue() {
+		public DoubleType getValue() {
 			return this.value;
 		}
 	}
 	
-	public class BooleanLiteral extends PartExpression {
+	public class BooleanLiteral extends BooleanBasicExpression {
 		
-		public BooleanLiteral(boolean b/*, Expression reference*/) {
-			this.value = b;
-		//	this.reference = reference;
+		public BooleanLiteral(boolean b) {
+			this.value = new BooleanType(b);
 		}
 		
-		public boolean value;
+		public BooleanType value;
 		
-		public Boolean getValue() {
+		public BooleanType getValue() {
 			return this.value;
 		}
 	}
 	
-	public class LogicAnd extends PartExpressionLogic {
+	public class LogicAnd extends BooleanExpression {
 		
 		public LogicAnd(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (BooleanLiteral) e1.getPartExpression();
+			this.right = (BooleanLiteral) e2.getPartExpression();
 		}
 		
-		public Boolean getValue() {
-			return getLeftValue() && getRightValue();
+		public BooleanLiteral left;
+		public BooleanLiteral right;
+		
+		public BooleanType getValue() {
+			return new BooleanType(this.left.getValue().getValue() && this.right.getValue().getValue());
 		}
-		
-		
 	}
 	
-	public class LogicOr extends PartExpressionLogic {
+	public class LogicOr extends BooleanExpression {
 		
 		public LogicOr(Expression e1, Expression e2) {
-			this.left = e1;
-			this.right = e2;
+			this.left = (BooleanLiteral) e1.getPartExpression();
+			this.right = (BooleanLiteral) e2.getPartExpression();
 		}
 		
-		public Boolean getValue() {
-			return getLeftValue() || getRightValue();
+		public BooleanLiteral left;
+		public BooleanLiteral right;
+		
+		public BooleanType getValue() {
+			return new BooleanType(this.left.getValue().getValue() || this.right.getValue().getValue());
 		}
 	}
 	
-	public class LogicNot extends PartExpressionLogic {
+	public class LogicNot extends BooleanExpression {
 		
 		public LogicNot(Expression e) {
-			this.left = e;
+			this.subject = (BooleanLiteral) e.getPartExpression();
 		}
 		
-		public Boolean getValue() {
-			return ! getLeftValue();
+		public BooleanLiteral subject;
+		
+		public BooleanType getValue() {
+			return new BooleanType(!this.subject.getValue().getValue());
 		}
 	}
 	
-	public class LogicNull extends PartExpressionLogic {
-		
-		public LogicNull() {
-		}
-		
-		public Boolean getValue() {
-			return null;
+	public class LogicNull extends PartExpression{
+
+		@Override
+		public EntityType<Double> getValue() {
+			return new EntityType<Double>(null);
 		}
 	}
 
-	public class Self extends PartExpressionObject {
+	public class Self extends PartExpression {
 		
-		public Self(Object self) {
-			this.object = self;
+		public Self(Worm worm){
+			this.worm = worm;
+		}
+	   
+		public Worm getWorm() {
+			return this.worm;
+		}
+
+		public Worm worm;
+
+		@Override
+		public EntityType<Worm> getValue() {
+			EntityType<Worm> worm =new EntityType<Worm>(this.getWorm());
+			return worm;
+		}
+	}
+	
+	public class SearchObject extends PartExpression {
+		public SearchObject(Expression e, Worm programExecutingWorm) {
+			this.angle = programExecutingWorm.getDirection() + ((DoubleLiteral) e.getPartExpression()).getValue().getValue();
+			this.programExecutingWorm = programExecutingWorm;
 		}
 		
-		public Object getValue() {
-			return (Object) this.getObjectValue();
+		public Worm programExecutingWorm;		
+		public double angle;
+
+		@Override
+		public EntityType<?> getValue() {
+			Object closestObject = null;
+			for (Object obj: programExecutingWorm.getWorld().getAllObjects()) {
+				if (Math.tan(this.angle)==((obj.getYpos()-programExecutingWorm.getYpos())/(obj.getXpos()-programExecutingWorm.getXpos()))) {
+					if (closestObject == null){
+						closestObject = obj;
+					}
+					else {
+						double distanceNew = Math.sqrt(Math.pow(obj.getYpos()-programExecutingWorm.getYpos(), 2)+
+								Math.pow(obj.getXpos()-programExecutingWorm.getXpos(), 2));
+						double distanceOld = Math.sqrt(Math.pow(closestObject.getYpos()-programExecutingWorm.getYpos(), 2)+
+								Math.pow(closestObject.getXpos()-programExecutingWorm.getXpos(), 2));
+						if (distanceNew<distanceOld) {
+							closestObject = obj;
+						}
+						
+					}
+				}
+			}
+			if (closestObject instanceof Worm) {
+				return new EntityType<Worm>((Worm) closestObject);
+			} else {
+				return new EntityType<Food>((Food) closestObject);
+			}
 		}
 	}
 	
@@ -341,6 +397,8 @@ public class Expression {
 			return Math.cos((Double) getExpression().getPartExpression().getValue());
 		}
 	}
+
+	
 
 
 

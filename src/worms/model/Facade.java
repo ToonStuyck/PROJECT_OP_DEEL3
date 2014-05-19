@@ -8,11 +8,11 @@ import java.util.Random;
 import org.antlr.v4.runtime.RecognitionException;
 
 import worms.gui.game.IActionHandler;
-import worms.model.programs.Expression;
 import worms.model.programs.ParseOutcome;
 import worms.model.programs.ProgramParser;
 import worms.model.programs.Statement;
-import worms.model.programs.Type;
+import worms.model.programs.Expression.Expression;
+import worms.model.programs.Type.Type;
 
 public class Facade implements IFacade{
 	
@@ -483,7 +483,7 @@ public class Facade implements IFacade{
 	        if(! errors.isEmpty()) {
 	          return ParseOutcome.failure(errors);
 	        } else {
-	          return ParseOutcome.success(new Program(parser.getGlobals(), parser.getStatement()));
+	          return ParseOutcome.success(new Program(parser.getGlobals(), parser.getStatement(), factory));
 	        }
 	    } catch(RecognitionException e) {
 	    	List<String> errors = new ArrayList<String>();

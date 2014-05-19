@@ -1,5 +1,7 @@
 package worms.model.programs;
 
+import worms.model.programs.Expression.Expression;
+
 public class Statement {
 	
 	public Statement(int line, int column) {

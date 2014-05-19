@@ -1,6 +1,6 @@
-package worms.model.programs;
+package worms.model.programs.Expression;
 
-import worms.model.programs.Expression.BooleanLiteral;
+import worms.model.programs.Expression.Expression.BooleanLiteral;
 
 public abstract class PartExpressionLogic extends PartExpressionOperator{
 	
