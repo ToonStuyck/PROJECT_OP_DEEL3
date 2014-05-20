@@ -1,4 +1,4 @@
-package worms.model.programs;
+package worms.model.programs.Statement;
 
 public abstract class PartStatementAction extends PartStatement{
 	

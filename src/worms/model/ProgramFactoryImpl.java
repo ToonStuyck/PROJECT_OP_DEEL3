@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 import worms.model.programs.ActionHandler;
-import worms.model.programs.Statement;
 import worms.model.programs.ProgramFactory;
 import worms.model.programs.Expression.Expression;
+import worms.model.programs.Statement.Statement;
 import worms.model.programs.Type.BooleanType;
 import worms.model.programs.Type.EntityType;
 import worms.model.programs.Type.Type;

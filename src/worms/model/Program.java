@@ -4,7 +4,7 @@ import java.util.Map;
 
 import worms.gui.game.IActionHandler;
 import worms.model.programs.ActionHandler;
-import worms.model.programs.Statement;
+import worms.model.programs.Statement.Statement;
 import worms.model.programs.Type.Type;
 
 public class Program {
