@@ -71,18 +71,18 @@ public class WormTest {
 			world = new World(100, 100, passableMap1, random  );
 			worldWithObjects = new World(100, 100, passableMap1, random  );
 			//worms
-			worm1 = new Worm(worldWithObjects, 2, 2, 1, 1, "Timon");
-			worm2 = new Worm(worldWithObjects, 3, 3, 1, 1, "Poemba");
-			worm_team = new Worm(world, 0, 0, 0, 5, "Team");
-			worm_position = new Worm(world, 0, 0, 0, 5, "Position");
-			worm_position2 = new Worm(world, 10, 30, 0, 1, "Position2");
-			worm_position3 = new Worm(world, 10, 70, 0, 1, "Position3");
-			worm_direction = new Worm(world,0, 0, 0, 5, "Direction");
-			worm_radius = new Worm(world, 0, 0, 0, 5, "Radius");
-			worm_name = new Worm(world, 0, 0, 0, 1, "Name");
-			worm_move = new Worm(world, 0, 0, (Math.PI)/4, 1, "Move");
-			worm_turn = new Worm(world, 0, 0, 0, 1, "Turn");
-			worm_jump = new Worm(world, 0, 0, 3 * Math.PI / 2, 1, "Jump");
+			worm1 = new Worm(worldWithObjects, 2, 2, 1, 1, "Timon", null);
+			worm2 = new Worm(worldWithObjects, 3, 3, 1, 1, "Poemba", null);
+			worm_team = new Worm(world, 0, 0, 0, 5, "Team", null);
+			worm_position = new Worm(world, 0, 0, 0, 5, "Position", null);
+			worm_position2 = new Worm(world, 10, 30, 0, 1, "Position2", null);
+			worm_position3 = new Worm(world, 10, 70, 0, 1, "Position3", null);
+			worm_direction = new Worm(world,0, 0, 0, 5, "Direction", null);
+			worm_radius = new Worm(world, 0, 0, 0, 5, "Radius", null);
+			worm_name = new Worm(world, 0, 0, 0, 1, "Name", null);
+			worm_move = new Worm(world, 0, 0, (Math.PI)/4, 1, "Move", null);
+			worm_turn = new Worm(world, 0, 0, 0, 1, "Turn", null);
+			worm_jump = new Worm(world, 0, 0, 3 * Math.PI / 2, 1, "Jump", null);
 			
 			Food food1 = new Food(worldWithObjects,5,5);
 			Food food2 = new Food(worldWithObjects,6,6);

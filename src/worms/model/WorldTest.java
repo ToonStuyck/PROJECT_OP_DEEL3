@@ -57,10 +57,10 @@ public class WorldTest {
 		worldWithObjects = new World(100, 100, passableMap1, random  );
 		world_projectile = new World(100, 100, passableMap1, random  );
 		//worms
-		Worm worm1 = new Worm(worldWithObjects, 2, 2, 1, 1, "Timon");
-		Worm worm2 = new Worm(worldWithObjects, 3, 3, 1, 1, "Poemba");
-		Worm worm_team = new Worm(worldWithObjects, 2, 2, 1, 1, "Team");
-		Worm worm_shoot = new Worm(world_projectile, 2, 2, 1, 1, "Shoot");
+		Worm worm1 = new Worm(worldWithObjects, 2, 2, 1, 1, "Timon", null);
+		Worm worm2 = new Worm(worldWithObjects, 3, 3, 1, 1, "Poemba", null);
+		Worm worm_team = new Worm(worldWithObjects, 2, 2, 1, 1, "Team", null);
+		Worm worm_shoot = new Worm(world_projectile, 2, 2, 1, 1, "Shoot", null);
 		Food food1 = new Food(worldWithObjects,5,5);
 		Food food2 = new Food(worldWithObjects,6,6);
 		worms.add(worm1);
@@ -132,21 +132,21 @@ public class WorldTest {
 	//Worm index, Start and turns.
 	@Test
 	public void test_getCurrentWorm_valid1() {
-		Worm worm1 = new Worm(world, 2, 2, 1, 1, "Tonny");
-		Worm worm2 = new Worm(world, 3, 3, 1, 1, "Gregory");
+		Worm worm1 = new Worm(world, 2, 2, 1, 1, "Tonny", null);
+		Worm worm2 = new Worm(world, 3, 3, 1, 1, "Gregory", null);
 		assertEquals(world.getCurrentWorm(),worm1);
 	}
 	@Test
 	public void test_getCurrentWorm_valid2() {
-		Worm worm1 = new Worm(world, 2, 2, 1, 1, "Tonny");
-		Worm worm2 = new Worm(world, 3, 3, 1, 1, "Gregory");
+		Worm worm1 = new Worm(world, 2, 2, 1, 1, "Tonny", null);
+		Worm worm2 = new Worm(world, 3, 3, 1, 1, "Gregory", null);
 		world.startNextTurn();
 		assertEquals(world.getCurrentWorm(),worm2);
 	}
 	@Test
 	public void test_getCurrentWorm_valid3() {
-		Worm worm1 = new Worm(world, 2, 2, 1, 1, "Tonny");
-		Worm worm2 = new Worm(world, 3, 3, 1, 1, "Gregory");
+		Worm worm1 = new Worm(world, 2, 2, 1, 1, "Tonny", null);
+		Worm worm2 = new Worm(world, 3, 3, 1, 1, "Gregory", null);
 		world.startNextTurn();
 		world.startNextTurn();
 		assertEquals(world.getCurrentWorm(),worm1);
@@ -209,8 +209,8 @@ public class WorldTest {
 	@Test
 	public void test_getWorms_valid1() {
 		Collection<Worm> worms = new ArrayList<Worm>();
-		Worm worm1 = new Worm(world, 2, 2, 1, 1, "Timon");
-		Worm worm2 = new Worm(world, 3, 3, 1, 1, "Poemba");
+		Worm worm1 = new Worm(world, 2, 2, 1, 1, "Timon", null);
+		Worm worm2 = new Worm(world, 3, 3, 1, 1, "Poemba", null);
 		Food food1 = new Food(world,7,7);
 		worms.add(worm1);
 		worms.add(worm2);
