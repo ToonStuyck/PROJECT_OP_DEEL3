@@ -11,6 +11,7 @@ import worms.gui.game.IActionHandler;
 import worms.model.programs.ParseOutcome;
 import worms.model.programs.ProgramParser;
 import worms.model.programs.Expression.Expression;
+import worms.model.programs.Expression.Expression.Self;
 import worms.model.programs.Statement.Statement;
 import worms.model.programs.Type.Type;
 
@@ -475,22 +476,37 @@ public class Facade implements IFacade{
 	@Override
 	public ParseOutcome<?> parseProgram(String programText,
 			IActionHandler handler) {
-		ProgramFactoryImpl factory = new ProgramFactoryImpl();
-	    ProgramParser<Expression, Statement, Type> parser = new ProgramParser<>(factory);
-	    try {
-	        parser.parse(programText);
-	        List<String> errors = parser.getErrors();
-	        if(! errors.isEmpty()) {
+//		ProgramFactoryImpl factory = new ProgramFactoryImpl();
+//	    ProgramParser<Expression, Statement, Type> parser = new ProgramParser<>(factory);
+//	    try {
+//	        parser.parse(programText);
+//	        List<String> errors = parser.getErrors();
+//	        if(! errors.isEmpty()) {
+//	          return ParseOutcome.failure(errors);
+//	        } else {
+//	          return ParseOutcome.success(new Program(parser.getGlobals(), parser.getStatement(), factory, handler));
+//	        }
+//	    } catch(RecognitionException e) {
+//	    	List<String> errors = new ArrayList<String>();
+//	    	errors.add(e.getMessage());
+//	      return ParseOutcome.failure(errors);
+//	    }
+		
+		ProgramFactoryImpl pfi = new ProgramFactoryImpl(programText, handler);
+		System.out.println("new PFI");
+		List<String> errors = pfi.getErrors();
+		if(! errors.isEmpty()) {
+			System.out.println("ERROR");
 	          return ParseOutcome.failure(errors);
 	        } else {
-	          return ParseOutcome.success(new Program(parser.getGlobals(), parser.getStatement(), factory, handler));
+	        	System.out.println("SUCCES");
+	          return ParseOutcome.success(pfi.getProgram());
 	        }
-	    } catch(RecognitionException e) {
-	    	List<String> errors = new ArrayList<String>();
-	    	errors.add(e.getMessage());
-	      return ParseOutcome.failure(errors);
-	    }
+		
+		
 	}
+		
+		
 
 	@Override
 	public boolean hasProgram(Worm worm) {
