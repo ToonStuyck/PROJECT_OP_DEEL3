@@ -150,9 +150,7 @@ public class Worm extends Object {
 	public void setProgram(Program program) {
 		this.program = program;
 		if (program != null) {
-			System.out.println("DAAAAAAAAAAMN");
-			program.setWorm(this);
-			program.getPfi().setWorm(this);
+			program.addWorm(this);
 		} 
 	}
 	

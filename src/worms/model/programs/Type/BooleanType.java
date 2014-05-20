@@ -2,7 +2,7 @@ package worms.model.programs.Type;
 
 public class BooleanType extends Type {
 	
-	public BooleanType(boolean b) {
+	public BooleanType(Boolean b) {
 		this.value = b;
 	}
 

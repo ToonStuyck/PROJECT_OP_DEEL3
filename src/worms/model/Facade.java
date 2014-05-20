@@ -476,37 +476,16 @@ public class Facade implements IFacade{
 	@Override
 	public ParseOutcome<?> parseProgram(String programText,
 			IActionHandler handler) {
-//		ProgramFactoryImpl factory = new ProgramFactoryImpl();
-//	    ProgramParser<Expression, Statement, Type> parser = new ProgramParser<>(factory);
-//	    try {
-//	        parser.parse(programText);
-//	        List<String> errors = parser.getErrors();
-//	        if(! errors.isEmpty()) {
-//	          return ParseOutcome.failure(errors);
-//	        } else {
-//	          return ParseOutcome.success(new Program(parser.getGlobals(), parser.getStatement(), factory, handler));
-//	        }
-//	    } catch(RecognitionException e) {
-//	    	List<String> errors = new ArrayList<String>();
-//	    	errors.add(e.getMessage());
-//	      return ParseOutcome.failure(errors);
-//	    }
+		ProgramFactoryImpl factory = new ProgramFactoryImpl();
+		ProgramParser<Expression,Statement,Type> parser= new ProgramParser<Expression,Statement,Type>(factory);
+		parser.parse(programText);
 		
-		ProgramFactoryImpl pfi = new ProgramFactoryImpl(programText, handler);
-		System.out.println("new PFI");
-		List<String> errors = pfi.getErrors();
-		if(! errors.isEmpty()) {
-			System.out.println("ERROR");
-	          return ParseOutcome.failure(errors);
-	        } else {
-	        	System.out.println("SUCCES");
-	          return ParseOutcome.success(pfi.getProgram());
-	        }
+		if (!parser.getErrors().isEmpty())
+			return ParseOutcome.failure(parser.getErrors());
 		
-		
-	}
-		
-		
+		Program program = new Program(parser.getGlobals(),parser.getStatement(), programText,handler);
+		return ParseOutcome.success(program);
+	}	
 
 	@Override
 	public boolean hasProgram(Worm worm) {

@@ -28,11 +28,11 @@ public class Expression {
 	
 	
 	public void createPartExpressionDoubleLiteral(double d) {
-		partExpression = new DoubleLiteral(d/*, this*/);
+		partExpression = new DoubleLiteral(d);
 	}
 	
 	public void createPartExpressionBooleanLiteral(boolean b) {
-		partExpression = new BooleanLiteral(b/*, this*/);	
+		partExpression = new BooleanLiteral(b);	
 	}	
 	
 	public void createPartExpressionLogicAnd(Expression e1, Expression e2) {
@@ -51,18 +51,17 @@ public class Expression {
 		partExpression = new LogicNull();
 	}
 	
-	public void createPartExpressionSelf(Worm self) {
-		partExpression = new Self(self);
+	public void createPartExpressionSelf() {
+		partExpression = new Self();
 	}
 	
-	public void createpartExpressionSearchObject(Expression e, Worm programExecutingWorm) {
-		partExpression = new SearchObject(e, programExecutingWorm);
+	public void createpartExpressionSearchObject(Expression e) {
+		partExpression = new SearchObject(e);
 		
 	}
 	
-	public void createPartExpressionVariableAcces(String name,
-			Map<String, Type> globals) {
-		this.partExpression = new VariableAcces(name,globals);
+	public void createPartExpressionVariableAcces(String name) {
+		this.partExpression = new VariableAcces(name);
 		
 	}
 	
@@ -147,12 +146,12 @@ public class Expression {
 	public class LogicAnd extends BooleanExpression {
 		
 		public LogicAnd(Expression e1, Expression e2) {
-			this.left = (BooleanLiteral) e1.getPartExpression();
-			this.right = (BooleanLiteral) e2.getPartExpression();
+			this.left = (BooleanExpression) e1.getPartExpression();
+			this.right = (BooleanExpression) e2.getPartExpression();
 		}
 		
-		public BooleanLiteral left;
-		public BooleanLiteral right;
+		public BooleanExpression left;
+		public BooleanExpression right;
 		
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() && this.right.getValue().getValue());
@@ -162,12 +161,12 @@ public class Expression {
 	public class LogicOr extends BooleanExpression {
 		
 		public LogicOr(Expression e1, Expression e2) {
-			this.left = (BooleanLiteral) e1.getPartExpression();
-			this.right = (BooleanLiteral) e2.getPartExpression();
+			this.left = (BooleanExpression) e1.getPartExpression();
+			this.right = (BooleanExpression) e2.getPartExpression();
 		}
 		
-		public BooleanLiteral left;
-		public BooleanLiteral right;
+		public BooleanExpression left;
+		public BooleanExpression right;
 		
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() || this.right.getValue().getValue());
@@ -177,10 +176,10 @@ public class Expression {
 	public class LogicNot extends BooleanExpression {
 		
 		public LogicNot(Expression e) {
-			this.subject = (BooleanLiteral) e.getPartExpression();
+			this.subject = (BooleanExpression) e.getPartExpression();
 		}
 		
-		public BooleanLiteral subject;
+		public BooleanExpression subject;
 		
 		public BooleanType getValue() {
 			return new BooleanType(!this.subject.getValue().getValue());
@@ -189,35 +188,41 @@ public class Expression {
 	
 	public class LogicNull extends PartExpression{
 
-		@Override
 		public EntityType<Double> getValue() {
 			return new EntityType<Double>(null);
 		}
 	}
 
-	public class Self extends PartExpression {
+	public static class Self extends PartExpression {
+		
+		public Self(){
+		}
 		
 		public Self(Worm worm){
-			this.worm = worm;
+			setWorm(worm);
 		}
 	   
-		public Worm getWorm() {
-			return this.worm;
+		public static Worm getWorm() {
+			return worm;
 		}
 
-		public Worm worm;
+		private static Worm worm;
+		
+		public void setWorm(Worm worm) {
+			Self.worm = worm;
+		}
 
 		@Override
 		public EntityType<Worm> getValue() {
-			EntityType<Worm> worm =new EntityType<Worm>(this.getWorm());
+			EntityType<Worm> worm =new EntityType<Worm>(Self.getWorm());
 			return worm;
 		}
 	}
 	
 	public class SearchObject extends PartExpression {
-		public SearchObject(Expression e, Worm programExecutingWorm) {
-			this.angle = programExecutingWorm.getDirection() + ((DoubleLiteral) e.getPartExpression()).getValue().getValue();
-			this.programExecutingWorm = programExecutingWorm;
+		public SearchObject(Expression e) {
+			this.angle = Self.getWorm().getDirection() + ((DoubleLiteral) e.getPartExpression()).getValue().getValue();
+			this.programExecutingWorm = Self.getWorm();
 		}
 		
 		public Worm programExecutingWorm;		
@@ -239,7 +244,6 @@ public class Expression {
 						if (distanceNew<distanceOld) {
 							closestObject = obj;
 						}
-						
 					}
 				}
 			}
@@ -253,28 +257,26 @@ public class Expression {
 	
 	public class VariableAcces extends PartExpression {
 		
-		public VariableAcces(String name, Map<String,Type> globals) {
+		public VariableAcces(String name) {
 			this.name = name;
-			this.globals =  new HashMap<String, Type>(globals);
 		}
 	
 		public String name;
-		public Map<String,Type> globals;
 		
 		public Type getValue(){
-			return this.globals.get(this.name);
+			return Self.getWorm().getProgram().getGlobals().get(this.name);
 		}
 	}
 	
 	public class CompareLessThan extends BooleanExpression {
 		
 		public CompareLessThan(Expression e1, Expression e2) {
-			this.left = (DoubleLiteral) e1.getPartExpression();
-			this.right = (DoubleLiteral) e2.getPartExpression();
+			this.left = (DoubleExpression) e1.getPartExpression();
+			this.right = (DoubleExpression) e2.getPartExpression();
 		}
 		
-		public DoubleLiteral left;
-		public DoubleLiteral right;
+		public DoubleExpression left;
+		public DoubleExpression right;
 		
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() < this.right.getValue().getValue());
@@ -284,12 +286,12 @@ public class Expression {
 	public class CompareGreaterThan extends BooleanExpression {
 		
 		public CompareGreaterThan(Expression e1, Expression e2) {
-			this.left = (DoubleLiteral) e1.getPartExpression();
-			this.right = (DoubleLiteral) e2.getPartExpression();
+			this.left = (DoubleExpression) e1.getPartExpression();
+			this.right = (DoubleExpression) e2.getPartExpression();
 		}
 		
-		public DoubleLiteral left;
-		public DoubleLiteral right;
+		public DoubleExpression left;
+		public DoubleExpression right;
 		
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() > this.right.getValue().getValue());
@@ -300,12 +302,12 @@ public class Expression {
 	public class CompareLessThanOrEqual extends BooleanExpression {
 		
 		public CompareLessThanOrEqual(Expression e1, Expression e2) {
-			this.left = (DoubleLiteral) e1.getPartExpression();
-			this.right = (DoubleLiteral) e2.getPartExpression();
+			this.left = (DoubleExpression) e1.getPartExpression();
+			this.right = (DoubleExpression) e2.getPartExpression();
 		}
 		
-		public DoubleLiteral left;
-		public DoubleLiteral right;
+		public DoubleExpression left;
+		public DoubleExpression right;
 		
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() <= this.right.getValue().getValue());
@@ -315,12 +317,12 @@ public class Expression {
 	public class CompareGreaterThanOrEqual extends BooleanExpression {
 		
 		public CompareGreaterThanOrEqual(Expression e1, Expression e2) {
-			this.left = (DoubleLiteral) e1.getPartExpression();
-			this.right = (DoubleLiteral) e2.getPartExpression();
+			this.left = (DoubleExpression) e1.getPartExpression();
+			this.right = (DoubleExpression) e2.getPartExpression();
 		}
 		
-		public DoubleLiteral left;
-		public DoubleLiteral right;
+		public DoubleExpression left;
+		public DoubleExpression right;
 		
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() >= this.right.getValue().getValue());
@@ -330,12 +332,12 @@ public class Expression {
 	public class CompareEquality extends BooleanExpression {
 		
 		public CompareEquality(Expression e1, Expression e2) {
-			this.left = (DoubleLiteral) e1.getPartExpression();
-			this.right = (DoubleLiteral) e2.getPartExpression();
+			this.left = (DoubleExpression) e1.getPartExpression();
+			this.right = (DoubleExpression) e2.getPartExpression();
 		}
 		
-		public DoubleLiteral left;
-		public DoubleLiteral right;
+		public DoubleExpression left;
+		public DoubleExpression right;
 		
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() == this.right.getValue().getValue());
@@ -345,12 +347,12 @@ public class Expression {
 	public class CompareInequality extends BooleanExpression {
 		
 		public CompareInequality(Expression e1, Expression e2) {
-			this.left = (DoubleLiteral) e1.getPartExpression();
-			this.right = (DoubleLiteral) e2.getPartExpression();
+			this.left = (DoubleExpression) e1.getPartExpression();
+			this.right = (DoubleExpression) e2.getPartExpression();
 		}
 		
-		public DoubleLiteral left;
-		public DoubleLiteral right;
+		public DoubleExpression left;
+		public DoubleExpression right;
 		
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() != this.right.getValue().getValue());
@@ -360,12 +362,12 @@ public class Expression {
 	public class MathAdd extends DoubleBinaryExpression {
 		
 		public MathAdd(Expression e1, Expression e2) {
-			this.left = (DoubleLiteral) e1.getPartExpression();
-			this.right = (DoubleLiteral) e2.getPartExpression();
+			this.left = (DoubleExpression) e1.getPartExpression();
+			this.right = (DoubleExpression) e2.getPartExpression();
 		}
 		
-		public DoubleLiteral left;
-		public DoubleLiteral right;
+		public DoubleExpression left;
+		public DoubleExpression right;
 		
 		public DoubleType getValue() {
 			return new DoubleType(this.left.getValue().getValue() + this.right.getValue().getValue());
@@ -375,12 +377,12 @@ public class Expression {
 	public class MathSubtraction extends DoubleBinaryExpression {
 		
 		public MathSubtraction(Expression e1, Expression e2) {
-			this.left = (DoubleLiteral) e1.getPartExpression();
-			this.right = (DoubleLiteral) e2.getPartExpression();
+			this.left = (DoubleExpression) e1.getPartExpression();
+			this.right = (DoubleExpression) e2.getPartExpression();
 		}
 		
-		public DoubleLiteral left;
-		public DoubleLiteral right;
+		public DoubleExpression left;
+		public DoubleExpression right;
 		
 		public DoubleType getValue() {
 			return new DoubleType(this.left.getValue().getValue() - this.right.getValue().getValue());
@@ -390,12 +392,12 @@ public class Expression {
 	public class MathMul extends DoubleBinaryExpression {
 	
 		public MathMul(Expression e1, Expression e2) {
-			this.left = (DoubleLiteral) e1.getPartExpression();
-			this.right = (DoubleLiteral) e2.getPartExpression();
+			this.left = (DoubleExpression) e1.getPartExpression();
+			this.right = (DoubleExpression) e2.getPartExpression();
 		}
 		
-		public DoubleLiteral left;
-		public DoubleLiteral right;
+		public DoubleExpression left;
+		public DoubleExpression right;
 		
 		public DoubleType getValue() {
 			return new DoubleType(this.left.getValue().getValue() * this.right.getValue().getValue());
@@ -405,12 +407,12 @@ public class Expression {
 	public class MathDivision extends DoubleBinaryExpression {
 	
 		public MathDivision(Expression e1, Expression e2) {
-			this.left = (DoubleLiteral) e1.getPartExpression();
-			this.right = (DoubleLiteral) e2.getPartExpression();
+			this.left = (DoubleExpression) e1.getPartExpression();
+			this.right = (DoubleExpression) e2.getPartExpression();
 		}
 		
-		public DoubleLiteral left;
-		public DoubleLiteral right;
+		public DoubleExpression left;
+		public DoubleExpression right;
 		
 		public DoubleType getValue() {
 			return new DoubleType(this.left.getValue().getValue() / this.right.getValue().getValue());
@@ -420,10 +422,10 @@ public class Expression {
 	public class MathSqrt extends DoubleUnaryExpression {
 		
 		public MathSqrt(Expression e) {
-			this.subject = (DoubleLiteral) e.getPartExpression();
+			this.subject = (DoubleExpression) e.getPartExpression();
 		}
 		
-		public DoubleLiteral subject;
+		public DoubleExpression subject;
 		
 		public DoubleType getValue() {
 			return new DoubleType(Math.sqrt(this.subject.getValue().getValue()));
@@ -433,10 +435,10 @@ public class Expression {
 	public class MathSin extends DoubleUnaryExpression {
 		
 		public MathSin(Expression e) {
-			this.subject = (DoubleLiteral) e.getPartExpression();
+			this.subject = (DoubleExpression) e.getPartExpression();
 		}
 		
-		public DoubleLiteral subject;
+		public DoubleExpression subject;
 		
 		public DoubleType getValue() {
 			return new DoubleType(Math.sin(this.subject.getValue().getValue()));
@@ -446,10 +448,10 @@ public class Expression {
 	public class MathCos extends DoubleUnaryExpression {
 		
 		public MathCos(Expression e) {
-			this.subject = (DoubleLiteral) e.getPartExpression();
+			this.subject = (DoubleExpression) e.getPartExpression();
 		}
 		
-		public DoubleLiteral subject;
+		public DoubleExpression subject;
 		
 		public DoubleType getValue() {
 			return new DoubleType(Math.cos(this.subject.getValue().getValue()));

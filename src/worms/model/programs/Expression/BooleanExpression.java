@@ -1,9 +1,9 @@
 package worms.model.programs.Expression;
 
-import worms.model.programs.Type.Type;
+import worms.model.programs.Type.BooleanType;
 
 public abstract class BooleanExpression extends PartExpression{
 	
-	public abstract Type getValue();
+	public abstract BooleanType getValue();
 
 }

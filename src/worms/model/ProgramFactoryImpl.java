@@ -8,9 +8,11 @@ import worms.gui.game.IActionHandler;
 import worms.model.programs.ActionHandler;
 import worms.model.programs.ProgramFactory;
 import worms.model.programs.ProgramParser;
+import worms.model.programs.Expression.EntityExpression;
 import worms.model.programs.Expression.Expression;
 import worms.model.programs.Expression.Expression.Self;
 import worms.model.programs.Expression.Expression.VariableAcces;
+import worms.model.programs.Expression.PartExpression;
 import worms.model.programs.Statement.Statement;
 import worms.model.programs.Type.BooleanType;
 import worms.model.programs.Type.DoubleType;
@@ -18,45 +20,9 @@ import worms.model.programs.Type.EntityType;
 import worms.model.programs.Type.Type;
 
 
-
 public class ProgramFactoryImpl implements
 		ProgramFactory<Expression, Statement, Type> {
 
-	public ProgramFactoryImpl(String programText, IActionHandler handler) {
-	    ProgramParser<Expression, Statement, Type> parser = new ProgramParser<>(this);
-	    System.out.println("constructon parser");
-		parser.parse(programText);
-		System.out.println("HIER LOOPT HET DUS VAST");
-		this.errors = parser.getErrors();
-		this.program = new Program(parser.getGlobals(), parser.getStatement(), this);
-		this.actionHandler = handler;
-	}
-	protected List<String> errors;
-	protected Worm worm;
-	protected Program program;
-	protected IActionHandler actionHandler;
-	
-	public void setWorm(Worm worm) {
-		this.worm = worm;
-	}
-
-	public Worm getWorm() {
-		return this.worm;
-	}
-	
-	public List<String> getErrors() {
-		return this.errors;
-	}
-	
-	public IActionHandler getActionhandler() {
-		return this.actionHandler;
-	}
-	
-	public Program getProgram() {
-		return this.program;
-	}
-
-	
 	@Override
 	public Expression createDoubleLiteral(int line, int column, double d) {
 		Expression expr = new Expression(line, column);
@@ -103,115 +69,133 @@ public class ProgramFactoryImpl implements
 
 	@Override
 	public Expression createSelf(int line, int column) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionSelf(this.getWorm());
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionSelf();
+		return expr;
 	}
 
 	@Override
 	public Expression createGetX(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		if (e.getPartExpression() instanceof Self) {
-//			System.out.println("self");
-//		} else if (e.getPartExpression() instanceof VariableAcces) {
-//			System.out.println("Variableacces");
-//		}
-//		Type et = ((Type) e.getPartExpression().getValue());
-//		double xpos = ((Object) et.getValue()).getXpos();
-//		
-////		expr.createPartExpressionDoubleLiteral(((Object) ((EntityType<?>) e.getPartExpression().getValue()).getValue()).getXpos());
-//		expr.createPartExpressionDoubleLiteral(xpos);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		PartExpression expression = e.getPartExpression();
+		if (expression instanceof Self){
+			expression= new EntityExpression<Worm>((new Self()).getValue());}
+		if ((expression.getValue().getValue()) instanceof Worm) {
+			expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getXpos());
+		} else {
+			expr.createPartExpressionDoubleLiteral(((Food)((EntityType<?>) expression.getValue()).getValue()).getXpos());
+		}
+		return expr;
+
 	}
 
 	@Override
 	public Expression createGetY(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		EntityType<Object> obj = new EntityType<Object>((Object) e.getPartExpression().getValue());
-//		expr.createPartExpressionDoubleLiteral(obj.getValue().getYpos());
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		PartExpression expression = e.getPartExpression();
+		if (expression instanceof Self){
+			expression= new EntityExpression<Worm>((new Self()).getValue());}
+		if ((expression.getValue().getValue()) instanceof Worm) {
+			expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getYpos());
+		} else {
+		expr.createPartExpressionDoubleLiteral(((Food)((EntityType<?>) expression.getValue()).getValue()).getYpos());
+		}
+		return expr;
 	}
 
 	@Override
 	public Expression createGetRadius(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		EntityType<Object> obj = new EntityType<Object>((Object) e.getPartExpression().getValue());
-//		expr.createPartExpressionDoubleLiteral(obj.getValue().getRadius());
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		PartExpression expression = e.getPartExpression();
+		if (expression instanceof Self){
+			expression= new EntityExpression<Worm>((new Self()).getValue());}
+		if ((expression.getValue().getValue()) instanceof Worm) {
+			expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getRadius());
+		} else {
+		expr.createPartExpressionDoubleLiteral(((Food)((EntityType<?>) expression.getValue()).getValue()).getRadius());
+		}
+		return expr;
 	}
 
 	@Override
 	public Expression createGetDir(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
-//		expr.createPartExpressionDoubleLiteral(worm.getValue().getDirection());
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		PartExpression expression = e.getPartExpression();
+		if (expression instanceof Self){
+			expression= new EntityExpression<Worm>((new Self()).getValue());}
+		
+		expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getDirection());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetAP(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
-//		expr.createPartExpressionDoubleLiteral(worm.getValue().getActionPoints());
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		PartExpression expression = e.getPartExpression();
+		if (expression instanceof Self){
+			expression= new EntityExpression<Worm>((new Self()).getValue());}
+		
+		expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getActionPoints());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetMaxAP(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
-//		expr.createPartExpressionDoubleLiteral(worm.getValue().getMaxActionPoints());
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		PartExpression expression = e.getPartExpression();
+		if (expression instanceof Self){
+			expression= new EntityExpression<Worm>((new Self()).getValue());}
+		
+		expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getMaxActionPoints());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetHP(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
-//		expr.createPartExpressionDoubleLiteral(worm.getValue().getHitPoints());
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		PartExpression expression = e.getPartExpression();
+		if (expression instanceof Self){
+			expression= new EntityExpression<Worm>((new Self()).getValue());}
+		
+		expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getHitPoints());
+		return expr;
 	}
 
 	@Override
 	public Expression createGetMaxHP(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
-//		expr.createPartExpressionDoubleLiteral(worm.getValue().getMaxHitPoints());
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		PartExpression expression = e.getPartExpression();
+		if (expression instanceof Self){
+			expression= new EntityExpression<Worm>((new Self()).getValue());}
+		
+		expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getMaxHitPoints());
+		return expr;
 	}
 
 	@Override
 	public Expression createSameTeam(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		EntityType<Worm> worm = new EntityType<Worm>((Worm) e.getPartExpression().getValue());
-//		EntityType<Worm> programExecutingWorm = new EntityType<Worm>(this.getProgram().getWorm());
-//		boolean outcome = (programExecutingWorm.getValue().getTeam() == worm.getValue().getTeam());
-//		expr.createPartExpressionBooleanLiteral(outcome);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		boolean outcome;
+		if (Self.getWorm().getTeam() == null)
+				outcome = false;
+		else {
+			outcome = (Self.getWorm().getTeam() == ((EntityType<Worm>) e.getPartExpression().getValue()).getValue().getTeam());
+		}
+		expr.createPartExpressionBooleanLiteral(outcome);
+		return expr;
 	}
 
 	@Override
 	public Expression createSearchObj(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		EntityType<Worm> programExecutingWorm = new EntityType<Worm>(this.getProgram().getWorm());
-		expr.createpartExpressionSearchObject(e, programExecutingWorm.getValue());
+		expr.createpartExpressionSearchObject(e);
 		return expr;
 	}
 
 	@Override
 	public Expression createIsWorm(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Object obj = (Object) e.getPartExpression().getValue();
+		Object obj = (Object) e.getPartExpression().getValue().getValue();
 		expr.createPartExpressionBooleanLiteral(obj instanceof Worm);
 		return expr;
 	}
@@ -219,17 +203,16 @@ public class ProgramFactoryImpl implements
 	@Override
 	public Expression createIsFood(int line, int column, Expression e) {
 		Expression expr = new Expression(line, column);
-		Object obj = (Object) e.getPartExpression().getValue();
+		Object obj = (Object) e.getPartExpression().getValue().getValue();
 		expr.createPartExpressionBooleanLiteral(obj instanceof Food);
 		return expr;
 	}
 
 	@Override
 	public Expression createVariableAccess(int line, int column, String name) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionVariableAcces(name, getProgram().getGlobals());
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionVariableAcces(name);
+		return expr;
 	}
 
 	@Override
@@ -242,117 +225,102 @@ public class ProgramFactoryImpl implements
 	@Override
 	public Expression createLessThan(int line, int column, Expression e1,
 			Expression e2) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionCompareLessThan(e1,e2);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareLessThan(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createGreaterThan(int line, int column, Expression e1,
 			Expression e2) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionCompareGreaterThan(e1,e2);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareGreaterThan(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createLessThanOrEqualTo(int line, int column,
 			Expression e1, Expression e2) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionCompareLessThanOrEqual(e1,e2);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareLessThanOrEqual(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createGreaterThanOrEqualTo(int line, int column,
 			Expression e1, Expression e2) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionCompareGreaterThanOrEqual(e1,e2);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareGreaterThanOrEqual(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createEquality(int line, int column, Expression e1,
 			Expression e2) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionCompareEquality(e1,e2);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareEquality(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createInequality(int line, int column, Expression e1,
 			Expression e2) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionCompareInequality(e1,e2);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionCompareInequality(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createAdd(int line, int column, Expression e1,
 			Expression e2) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionMathAdd(e1,e2);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathAdd(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createSubtraction(int line, int column, Expression e1,
 			Expression e2) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionMathSubtraction(e1,e2);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathSubtraction(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createMul(int line, int column, Expression e1,
 			Expression e2) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionMathMul(e1,e2);
-//		return expr;
-		return null;
-		
-		
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathMul(e1,e2);
+		return expr;		
 	}
 
 	@Override
 	public Expression createDivision(int line, int column, Expression e1,
 			Expression e2) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionMathDivision(e1,e2);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathDivision(e1,e2);
+		return expr;
 	}
 
 	@Override
 	public Expression createSqrt(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionMathSqrt(e);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathSqrt(e);
+		return expr;
 	}
 
 	@Override
 	public Expression createSin(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionMathSin(e);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathSin(e);
+		return expr;
 	}
 
 	@Override
 	public Expression createCos(int line, int column, Expression e) {
-//		Expression expr = new Expression(line, column);
-//		expr.createPartExpressionMathCos(e);
-//		return expr;
-		return null;
+		Expression expr = new Expression(line, column);
+		expr.createPartExpressionMathCos(e);
+		return expr;
 	}
 
 	@Override
