@@ -208,7 +208,7 @@ public class Expression {
 
 		private static Worm worm;
 		
-		public void setWorm(Worm worm) {
+		public static void setWorm(Worm worm) {
 			Self.worm = worm;
 		}
 

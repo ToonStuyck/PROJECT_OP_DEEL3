@@ -86,7 +86,6 @@ public class ProgramFactoryImpl implements
 			expr.createPartExpressionDoubleLiteral(((Food)((EntityType<?>) expression.getValue()).getValue()).getXpos());
 		}
 		return expr;
-
 	}
 
 	@Override
@@ -325,104 +324,92 @@ public class ProgramFactoryImpl implements
 
 	@Override
 	public Statement createTurn(int line, int column, Expression angle) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementTurn(angle, getProgram());
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementTurn(angle);
+		return stmnt;
 	}
 
 	@Override
 	public Statement createMove(int line, int column) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementMove(getProgram());
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementMove();
+		return stmnt;
 	}
 
 	@Override
 	public Statement createJump(int line, int column) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementJump(getProgram());
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementJump();
+		return stmnt;
 	}
 
 	@Override
 	public Statement createToggleWeap(int line, int column) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementToggleWeap(getProgram());
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementToggleWeap();
+		return stmnt;
 	}
 
 	@Override
 	public Statement createFire(int line, int column, Expression yield) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementFire(yield, getProgram());
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementFire(yield);
+		return stmnt;
 	}
 
 	@Override
 	public Statement createSkip(int line, int column) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementSkip(getProgram());
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementSkip();
+		return stmnt;
 	}
 
 	@Override
 	public Statement createAssignment(int line, int column,
 			String variableName, Expression rhs) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementAssignment(variableName, rhs, getProgram());
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementAssignment(variableName, rhs);
+		return stmnt;
 	}
 
 	@Override
 	public Statement createIf(int line, int column, Expression condition,
 			Statement then, Statement otherwise) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementIf(condition, then, otherwise);
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementIf(condition, then, otherwise);
+		return stmnt;
 	}
 
 	@Override
 	public Statement createWhile(int line, int column, Expression condition,
 			Statement body) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementWhile(condition, body);
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementWhile(condition, body);
+		return stmnt;
 	}
 
 	@Override
 	public Statement createForeach(int line, int column,
 			worms.model.programs.ProgramFactory.ForeachType type,
 			String variableName, Statement body) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementForEach(type, variableName, body, getProgram());
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementForEach(type, variableName, body);
+		return stmnt;
 	}
 
 	@Override
 	public Statement createSequence(int line, int column,
 			List<Statement> statements) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementSequence(statements);
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementSequence(statements);
+		return stmnt;
 	}
 
 	@Override
 	public Statement createPrint(int line, int column, Expression e) {
-//		Statement stmnt = new Statement(line, column);
-//		stmnt.createPartStatementPrint(e);
-//		return stmnt;
-		return null;
+		Statement stmnt = new Statement(line, column);
+		stmnt.createPartStatementPrint(e);
+		return stmnt;
 	}
 
 	@Override

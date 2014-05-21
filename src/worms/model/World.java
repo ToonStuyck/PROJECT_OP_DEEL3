@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import worms.model.programs.Expression.Expression.Self;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Raw;
 
@@ -306,6 +307,10 @@ public class World {
 	@Raw
 	public void	startGame(){
 		setCurrentWormIndex(0);
+		if (this.getCurrentWorm().hasProgram()){
+			Self.setWorm(this.getCurrentWorm());
+			this.getCurrentWorm().getProgram().runProgram(); 
+		}
 	}
 	/**
 	 * Cycles through all worms turn by turn.
@@ -313,10 +318,16 @@ public class World {
 	 */
 	@Raw
 	public void startNextTurn(){
-		if (getCurrentWormIndex() >= (getWorms().size()-1))
+		if (getCurrentWormIndex() >= (getWorms().size()-1)){
 			startNextRound();
-		else
+		} else {
 			setCurrentWormIndex(getCurrentWormIndex()+1);
+			if (this.getCurrentWorm().hasProgram()){
+				Self.setWorm(this.getCurrentWorm());
+				this.getCurrentWorm().getProgram().runProgram(); 
+			}
+		}
+		
 	}
 	/**
 	 * Starts a new round.
@@ -327,6 +338,10 @@ public class World {
 			worm.newRound();
 		}
 		setCurrentWormIndex(0);
+		if (this.getCurrentWorm().hasProgram()){
+			Self.setWorm(this.getCurrentWorm());
+			this.getCurrentWorm().getProgram().runProgram(); 
+		}
 	}
 	/**
 	 * Returns the winner, if the game is finished.

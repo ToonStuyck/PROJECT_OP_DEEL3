@@ -5,10 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import worms.gui.game.IActionHandler;
-import worms.model.programs.ActionHandler;
-import worms.model.programs.ParseOutcome;
-import worms.model.programs.ProgramParser;
-import worms.model.programs.Expression.Expression;
 import worms.model.programs.Expression.Expression.Self;
 import worms.model.programs.Statement.Statement;
 import worms.model.programs.Type.Type;
@@ -43,7 +39,7 @@ public class Program {
 
 	public void runProgram(){
 		nbStatements=0;
-		statement.executeStatement();
+		statement.getPartStatement().execute();
 		World world = Self.getWorm().getWorld();
 		if (world.isGameFinished()){
 			world.getWinner();
@@ -53,6 +49,10 @@ public class Program {
 
 	public void increaseNbStatements(){
 		nbStatements+=1;
+	}
+	
+	public int getNbStatements(){
+		return nbStatements;
 	}
 
 }
