@@ -1,5 +1,6 @@
 package worms.model.programs.Statement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import worms.gui.game.IActionHandler;
@@ -238,6 +239,12 @@ public class Statement {
 					other.getPartStatement().execute();
 				}
 			}
+		}
+
+		public List<Statement> getStatements() {
+			List<Statement> list = new ArrayList<Statement>();
+			list.add(then); list.add(other);
+			return list;
 		}
 	}
 	

@@ -392,6 +392,11 @@ public class Projectile extends Object{
 			tempYpos = this.jumpStep(t)[1];
 			t += timeStep;
 			
+			if (!(position.isValidXPos(tempXpos, world) && position.isValidYPos(tempYpos, world))) {
+				break;
+			}
+			
+			
 			if ((world.isAdjacent(tempXpos, tempYpos, this.getRadius())) &&  
 					(Math.sqrt(Math.pow((origXpos-tempXpos), 2)+Math.pow((origYpos-tempYpos), 2))>=this.getRadius() )){
 				return t;
@@ -399,6 +404,8 @@ public class Projectile extends Object{
 			if (isOutOfTheMap(tempXpos,tempYpos)) {
 				return t;
 			}
+			
+			
 		}
 		return t;	
 	}
@@ -446,13 +453,21 @@ public class Projectile extends Object{
 			double tempXpos = this.getXpos();
 			double tempYpos = this.getYpos();
 			double t=0;
+			outerloop:
 			while ((world.isPassable(tempXpos, tempYpos, this.getRadius()))){
 				
 				tempXpos = this.jumpStep(t)[0];
 				tempYpos = this.jumpStep(t)[1];
-			
+				
+				
+				if (!(position.isValidXPos(tempXpos, world) && position.isValidYPos(tempYpos, world))) {
+	    			this.deleteProjectile(world);
+					this.setActive(false);	
+					break;
+				}
+				
 				Collection<Worm> collection = (world.getWorms());
-	
+				
 			    for (Worm w : collection) {
 			    	Worm overlappingWorm = null;
 			    	double maxDistance = this.getRadius() + w.getRadius();
@@ -460,17 +475,19 @@ public class Projectile extends Object{
 			    	if ((!(w==world.getCurrentWorm())) && (Math.sqrt(Math.pow(w.getXpos()-tempXpos, 2)+
 			    			Math.pow(w.getYpos()-tempYpos, 2))< maxDistance) && this.getActive()==true) {
 			    		overlappingWorm = w;
-			    		if ((this.getActive()==true)){
+			    		
 			    			overlappingWorm.setHitPoints(overlappingWorm.getHitPoints()-this.damage);
 							this.deleteProjectile(world);
 							this.setActive(false);
-			    		}
+							break outerloop;
+			    		
 						
 			    	} else {
-			    		overlappingWorm = null;
+//			    		overlappingWorm = null;
 			    		if ((isOutOfTheMap(tempXpos,tempYpos))) {
 							this.deleteProjectile(world);
 							this.setActive(false);	
+							break outerloop;
 						}
 					
 			    		else if (((world.isImpassable(tempXpos, tempYpos, this.getRadius()))) && (this.getActive()==true)){

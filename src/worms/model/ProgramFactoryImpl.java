@@ -1,17 +1,9 @@
 package worms.model;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import worms.gui.game.IActionHandler;
-import worms.model.programs.ActionHandler;
 import worms.model.programs.ProgramFactory;
-import worms.model.programs.ProgramParser;
-import worms.model.programs.Expression.EntityExpression;
 import worms.model.programs.Expression.Expression;
 import worms.model.programs.Expression.Expression.Self;
-import worms.model.programs.Expression.Expression.VariableAcces;
 import worms.model.programs.Expression.PartExpression;
 import worms.model.programs.Statement.Statement;
 import worms.model.programs.Type.BooleanType;
@@ -79,9 +71,11 @@ public class ProgramFactoryImpl implements
 		Expression expr = new Expression(line, column);
 		PartExpression expression = e.getPartExpression();
 		if (expression instanceof Self){
-			expression= new EntityExpression<Worm>((new Self()).getValue());}
-		if ((expression.getValue().getValue()) instanceof Worm) {
-			expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getXpos());
+			Worm worm = Self.getWorm();
+			expr.createPartExpressionDoubleLiteral(worm.getXpos());
+		} else if ((expression.getValue().getValue()) instanceof Worm) {
+			Worm worm = (Worm) expression.getValue().getValue();
+			expr.createPartExpressionDoubleLiteral(worm.getXpos());
 		} else {
 			expr.createPartExpressionDoubleLiteral(((Food)((EntityType<?>) expression.getValue()).getValue()).getXpos());
 		}
@@ -93,11 +87,13 @@ public class ProgramFactoryImpl implements
 		Expression expr = new Expression(line, column);
 		PartExpression expression = e.getPartExpression();
 		if (expression instanceof Self){
-			expression= new EntityExpression<Worm>((new Self()).getValue());}
-		if ((expression.getValue().getValue()) instanceof Worm) {
-			expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getYpos());
+			Worm worm = Self.getWorm();
+			expr.createPartExpressionDoubleLiteral(worm.getYpos());
+		} else if ((expression.getValue().getValue()) instanceof Worm) {
+			Worm worm = (Worm) expression.getValue().getValue();
+			expr.createPartExpressionDoubleLiteral(worm.getYpos());
 		} else {
-		expr.createPartExpressionDoubleLiteral(((Food)((EntityType<?>) expression.getValue()).getValue()).getYpos());
+			expr.createPartExpressionDoubleLiteral(((Food)((EntityType<?>) expression.getValue()).getValue()).getYpos());
 		}
 		return expr;
 	}
@@ -107,11 +103,13 @@ public class ProgramFactoryImpl implements
 		Expression expr = new Expression(line, column);
 		PartExpression expression = e.getPartExpression();
 		if (expression instanceof Self){
-			expression= new EntityExpression<Worm>((new Self()).getValue());}
-		if ((expression.getValue().getValue()) instanceof Worm) {
-			expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getRadius());
+			Worm worm = Self.getWorm();
+			expr.createPartExpressionDoubleLiteral(worm.getRadius());
+		} else if ((expression.getValue().getValue()) instanceof Worm) {
+			Worm worm = (Worm) expression.getValue().getValue();
+			expr.createPartExpressionDoubleLiteral(worm.getRadius());
 		} else {
-		expr.createPartExpressionDoubleLiteral(((Food)((EntityType<?>) expression.getValue()).getValue()).getRadius());
+			expr.createPartExpressionDoubleLiteral(((Food)((EntityType<?>) expression.getValue()).getValue()).getRadius());
 		}
 		return expr;
 	}
@@ -121,9 +119,12 @@ public class ProgramFactoryImpl implements
 		Expression expr = new Expression(line, column);
 		PartExpression expression = e.getPartExpression();
 		if (expression instanceof Self){
-			expression= new EntityExpression<Worm>((new Self()).getValue());}
-		
-		expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getDirection());
+			Worm worm = Self.getWorm();
+			expr.createPartExpressionDoubleLiteral(worm.getDirection());
+		} else {
+			Worm worm = (Worm) expression.getValue().getValue();
+			expr.createPartExpressionDoubleLiteral(worm.getDirection());
+		}
 		return expr;
 	}
 
@@ -132,9 +133,12 @@ public class ProgramFactoryImpl implements
 		Expression expr = new Expression(line, column);
 		PartExpression expression = e.getPartExpression();
 		if (expression instanceof Self){
-			expression= new EntityExpression<Worm>((new Self()).getValue());}
-		
-		expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getActionPoints());
+			Worm worm = Self.getWorm();
+			expr.createPartExpressionDoubleLiteral(worm.getActionPoints());
+		} else {
+			Worm worm = (Worm) expression.getValue().getValue();
+			expr.createPartExpressionDoubleLiteral(worm.getActionPoints());
+		}
 		return expr;
 	}
 
@@ -143,9 +147,12 @@ public class ProgramFactoryImpl implements
 		Expression expr = new Expression(line, column);
 		PartExpression expression = e.getPartExpression();
 		if (expression instanceof Self){
-			expression= new EntityExpression<Worm>((new Self()).getValue());}
-		
-		expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getMaxActionPoints());
+			Worm worm = Self.getWorm();
+			expr.createPartExpressionDoubleLiteral(worm.getMaxActionPoints());
+		} else {
+			Worm worm = (Worm) expression.getValue().getValue();
+			expr.createPartExpressionDoubleLiteral(worm.getMaxActionPoints());
+		}
 		return expr;
 	}
 
@@ -154,9 +161,12 @@ public class ProgramFactoryImpl implements
 		Expression expr = new Expression(line, column);
 		PartExpression expression = e.getPartExpression();
 		if (expression instanceof Self){
-			expression= new EntityExpression<Worm>((new Self()).getValue());}
-		
-		expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getHitPoints());
+			Worm worm = Self.getWorm();
+			expr.createPartExpressionDoubleLiteral(worm.getHitPoints());
+		} else {
+			Worm worm = (Worm) expression.getValue().getValue();
+			expr.createPartExpressionDoubleLiteral(worm.getHitPoints());
+		}
 		return expr;
 	}
 
@@ -165,9 +175,12 @@ public class ProgramFactoryImpl implements
 		Expression expr = new Expression(line, column);
 		PartExpression expression = e.getPartExpression();
 		if (expression instanceof Self){
-			expression= new EntityExpression<Worm>((new Self()).getValue());}
-		
-		expr.createPartExpressionDoubleLiteral(((Worm)((EntityType<?>) expression.getValue()).getValue()).getMaxHitPoints());
+			Worm worm = Self.getWorm();
+			expr.createPartExpressionDoubleLiteral(worm.getMaxHitPoints());
+		} else {
+			Worm worm = (Worm) expression.getValue().getValue();
+			expr.createPartExpressionDoubleLiteral(worm.getMaxHitPoints());
+		}
 		return expr;
 	}
 
@@ -178,7 +191,7 @@ public class ProgramFactoryImpl implements
 		if (Self.getWorm().getTeam() == null)
 				outcome = false;
 		else {
-			outcome = (Self.getWorm().getTeam() == ((EntityType<Worm>) e.getPartExpression().getValue()).getValue().getTeam());
+			outcome = (Self.getWorm().getTeam() == ((Worm) e.getPartExpression().getValue().getValue()).getTeam());
 		}
 		expr.createPartExpressionBooleanLiteral(outcome);
 		return expr;

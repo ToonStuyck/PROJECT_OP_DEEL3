@@ -1,8 +1,5 @@
 package worms.model.programs.Expression;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import worms.model.Food;
 import worms.model.Object;
 import worms.model.Worm;

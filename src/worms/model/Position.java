@@ -131,8 +131,14 @@ public class Position {
 					randYpos += (Math.sin(randomDirection)*radius*0.1);
 				}
 			}
-			this.setXpos(randXpos);
-			this.setYpos(randYpos);
+			if (this.isValidXPos(randXpos, world, radius) 
+					&& this.isValidYPos(randYpos, world, radius) ) {
+				this.setXpos(randXpos);
+				this.setYpos(randYpos);
+			} else {
+				setAdjacantPosition(world,object);
+			}
+			
 		}
 	}
 	/**

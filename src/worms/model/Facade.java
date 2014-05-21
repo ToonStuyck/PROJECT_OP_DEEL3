@@ -1,17 +1,11 @@
 package worms.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
-
-import org.antlr.v4.runtime.RecognitionException;
-
 import worms.gui.game.IActionHandler;
 import worms.model.programs.ParseOutcome;
 import worms.model.programs.ProgramParser;
 import worms.model.programs.Expression.Expression;
-import worms.model.programs.Expression.Expression.Self;
 import worms.model.programs.Statement.Statement;
 import worms.model.programs.Type.Type;
 
@@ -494,7 +488,7 @@ public class Facade implements IFacade{
 
 	@Override
 	public boolean isWellFormed(Program program) {
-		return true;
+		return program.isWellFormed();
 	}
 
 }

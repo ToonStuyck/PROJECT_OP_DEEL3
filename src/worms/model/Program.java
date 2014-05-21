@@ -7,6 +7,10 @@ import java.util.Map;
 import worms.gui.game.IActionHandler;
 import worms.model.programs.Expression.Expression.Self;
 import worms.model.programs.Statement.Statement;
+import worms.model.programs.Statement.Statement.ForEach;
+import worms.model.programs.Statement.Statement.If;
+import worms.model.programs.Statement.Statement.Sequence;
+import worms.model.programs.Statement.Statement.While;
 import worms.model.programs.Type.Type;
 
 public class Program {
@@ -28,6 +32,10 @@ public class Program {
 	public void addWorm(Worm worm) {
 		worms.add(worm);
 	}
+	
+	public void deleteWorm(Worm worm) {
+		worms.remove(worm);
+	}
 
 	public Map<String, Type> getGlobals() {
 		return this.globals;
@@ -38,15 +46,25 @@ public class Program {
 	}
 
 	public void runProgram(){
+		setProgramStart();
 		nbStatements=0;
 		statement.getPartStatement().execute();
 		World world = Self.getWorm().getWorld();
-		if (world.isGameFinished()){
-			world.getWinner();
-		}
 		world.startNextTurn();
 	}
 
+	public void setProgramStart() {
+		this.running = true;
+	}
+	public void setProgramStop() {
+		this.running = false;
+	}
+	public boolean isProgramRunning() {
+		return this.running;
+	}
+	
+	public boolean running;
+	
 	public void increaseNbStatements(){
 		nbStatements+=1;
 	}
@@ -54,5 +72,134 @@ public class Program {
 	public int getNbStatements(){
 		return nbStatements;
 	}
+	
+	private boolean forEach;
+	
+	public boolean isWellFormed() {
+		Statement stm = statement;
+		if (stm.getPartStatement() instanceof If) {
+			if(!isWellFormedIf(((If)stm.getPartStatement()).getStatements())) {
+				return false;
+			}
+		} else if (stm.getPartStatement() instanceof While) {
+			if(!isWellFormedWhile(((While)stm.getPartStatement()).body)) {
+				return false;
+			}
+		} else if (stm.getPartStatement() instanceof ForEach) {
+			forEach = true;
+			if(!isWellFormedForEach(((ForEach)stm.getPartStatement()).body)) {
+				return false;
+			}
+		} else if (stm.getPartStatement() instanceof Sequence) {
+			if(!isWellFormedSequence(((Sequence)stm.getPartStatement()).statements)) {
+				return false;
+			}
+		}  
+		return true;
+	}
 
+	private boolean isWellFormedIf(List<Statement> statements) {
+		for (Statement stm: statements) {
+			if (stm.getPartStatement() instanceof If) {
+				if(!isWellFormedIf(((If)stm.getPartStatement()).getStatements())) {
+					return false;
+				}
+			} else if (stm.getPartStatement() instanceof While) {
+				if(!isWellFormedWhile(((While)stm.getPartStatement()).body)) {
+					return false;
+				}
+			} else if (stm.getPartStatement() instanceof ForEach) {
+				forEach = true;
+				if(!isWellFormedForEach(((ForEach)stm.getPartStatement()).body)) {
+					return false;
+				}
+			} else if (stm.getPartStatement() instanceof Sequence) {
+				if(!isWellFormedSequence(((Sequence)stm.getPartStatement()).statements)) {
+					return false;
+				}
+			}  
+		}
+		if (forEach == false) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean isWellFormedWhile(Statement stm) {
+		if (stm.getPartStatement() instanceof If) {
+			if(!isWellFormedIf(((If)stm.getPartStatement()).getStatements())) {
+				return false;
+			}
+		} else if (stm.getPartStatement() instanceof While) {
+			if(!isWellFormedWhile(((While)stm.getPartStatement()).body)) {
+				return false;
+			}
+		} else if (stm.getPartStatement() instanceof ForEach) {
+			forEach = true;
+			if(!isWellFormedForEach(((ForEach)stm.getPartStatement()).body)) {
+				return false;
+			}
+		} else if (stm.getPartStatement() instanceof Sequence) {
+			if(!isWellFormedSequence(((Sequence)stm.getPartStatement()).statements)) {
+				return false;
+			}
+		} 
+		if (forEach == false) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	private boolean isWellFormedForEach(Statement stm) {
+		if (stm.getPartStatement() instanceof If) {
+			if(!isWellFormedIf(((If)stm.getPartStatement()).getStatements())) {
+				return false;
+			}
+		} else if (stm.getPartStatement() instanceof While) {
+			if(!isWellFormedWhile(((While)stm.getPartStatement()).body)) {
+				return false;
+			}
+		} else if (stm.getPartStatement() instanceof ForEach) {
+			if(!isWellFormedForEach(((ForEach)stm.getPartStatement()).body)) {
+				return false;
+			}
+		} else if (stm.getPartStatement() instanceof Sequence) {
+			if(!isWellFormedSequence(((Sequence)stm.getPartStatement()).statements)) {
+				return false;
+			}
+		}
+		return false;		
+	}
+	
+	private boolean isWellFormedSequence(List<Statement> statements) {
+		for (Statement stm: statements) {
+			if (stm.getPartStatement() instanceof If) {
+				if(!isWellFormedIf(((If)stm.getPartStatement()).getStatements())) {
+					return false;
+				}
+			} else if (stm.getPartStatement() instanceof While) {
+				if(!isWellFormedWhile(((While)stm.getPartStatement()).body)) {
+					return false;
+				}
+			} else if (stm.getPartStatement() instanceof ForEach) {
+				forEach = true;
+				if(!isWellFormedForEach(((ForEach)stm.getPartStatement()).body)) {
+					return false;
+				}
+			} else if (stm.getPartStatement() instanceof Sequence) {
+				if(!isWellFormedSequence(((Sequence)stm.getPartStatement()).statements)) {
+					return false;
+				}
+			}
+		}
+		if (forEach == false) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 }
