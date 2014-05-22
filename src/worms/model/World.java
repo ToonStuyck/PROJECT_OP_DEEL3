@@ -327,7 +327,6 @@ public class World {
 				this.getCurrentWorm().getProgram().runProgram(); 
 			}
 		}
-		
 	}
 	/**
 	 * Starts a new round.
@@ -361,7 +360,6 @@ public class World {
 				return "TEAM " + ((Worm) this.getWorms().toArray()[0]).getTeamName();
 			}
 		}
-			
 	}
 	/**
 	 * Checks whether the game is finished or not.
@@ -491,7 +489,6 @@ public class World {
 		objects.remove(object);
 	}
 	
-	
 	//List of Worms
 	/**
 	 * Returns a collection of all the worms in the world.
@@ -531,7 +528,6 @@ public class World {
 	 * @return 	Each object in the resulting list is food.
 	 *       	| for each index in 0..result.size()-1 :
 	 *       	|   result.get(index) instanceof Food = true
-	 *       
 	 */
 	@Raw
 	public Collection<Food> getFood() {

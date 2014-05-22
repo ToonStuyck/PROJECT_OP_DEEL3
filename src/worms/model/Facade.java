@@ -466,7 +466,21 @@ public class Facade implements IFacade{
 	public void turn(Worm worm, double angle) {
 		worm.turn(angle);
 	}
-
+	/**
+	 * Try to parse the given program.
+	 * You can use an instance of the worms.model.programs.ProgramParser.
+	 * 
+	 * When the program is executed, the execution of an action statement
+	 * must call the corresponding method of the given action handler.
+	 * This executes the action as if a human player has initiated it, and
+	 * will eventually call the corresponding method on the facade. 
+	 * 
+	 * @param programText The program text to parse
+	 * @param handler The action handler on which to execute commands
+	 * 
+	 * @return the outcome of parsing the program, which can be a success or a failure.
+	 * You can create a ParseOutcome object by means of its two static methods, success and failure. 
+	 */
 	@Override
 	public ParseOutcome<?> parseProgram(String programText,
 			IActionHandler handler) {
@@ -480,12 +494,24 @@ public class Facade implements IFacade{
 		Program program = new Program(parser.getGlobals(),parser.getStatement(), programText,handler);
 		return ParseOutcome.success(program);
 	}	
-
+	/**
+	 * Returns whether or not the given worm is controlled by a program. 
+	 * 
+	 * @return true if the given worm is controlled by a program, false otherwise
+	 */
 	@Override
 	public boolean hasProgram(Worm worm) {
 		return worm.hasProgram();
 	}
-
+	/**
+	 * Returns whether or not the given program is well-formed.
+	 * A program is well-formed if a for-each statement does not (directly or
+	 * indirectly) contain one or more action statements.
+	 * 
+	 * @param program The program to check
+	 * 
+	 * @return true if the program is well-formed; false otherwise 
+	 */
 	@Override
 	public boolean isWellFormed(Program program) {
 		return program.isWellFormed();

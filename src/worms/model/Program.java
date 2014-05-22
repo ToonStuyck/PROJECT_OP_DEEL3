@@ -1,11 +1,8 @@
 package worms.model;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import worms.gui.game.IActionHandler;
 import worms.model.programs.Expression.Expression.Self;
 import worms.model.programs.Statement.IllegalActionPointsException;
@@ -154,7 +151,6 @@ public class Program {
 		} else {
 			return false;
 		}
-		
 	}
 	
 	private boolean isWellFormedForEach(Statement stm) {

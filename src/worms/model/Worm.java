@@ -2,7 +2,6 @@ package worms.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -186,24 +185,6 @@ public class Worm extends Object {
 	public Program getProgram() {
 		return this.program ;
 	}
-	
-	
-	public void setMarkerProgram(int line, int column) {
-		this.programPos[0] = line;
-		this.programPos[1] = column;
-	}
-	
-	public int[] programPos = new int[2];
-	
-	public int[] getMarkerProgram(int line, int column) {
-		return this.programPos;
-	}
-	
-	public void resetMarkerProgram() {
-		this.programPos[0] = 0;
-		this.programPos[1] = 0;
-	}
-	
 	
 	/**
 	 * Prepare the worm for a new round.
