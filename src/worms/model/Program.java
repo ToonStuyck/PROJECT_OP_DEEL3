@@ -1,5 +1,6 @@
 package worms.model;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +9,13 @@ import java.util.Map;
 import worms.gui.game.IActionHandler;
 import worms.model.programs.Expression.Expression.Self;
 import worms.model.programs.Statement.IllegalActionPointsException;
+import worms.model.programs.Statement.PartStatement;
 import worms.model.programs.Statement.Statement;
 import worms.model.programs.Statement.Statement.ForEach;
 import worms.model.programs.Statement.Statement.If;
 import worms.model.programs.Statement.Statement.Sequence;
 import worms.model.programs.Statement.Statement.While;
+import worms.model.programs.Statement.StopProgramException;
 import worms.model.programs.Type.Type;
 
 public class Program {
@@ -48,29 +51,23 @@ public class Program {
 	}	
 
 	public void runProgram(){
-		setProgramStart();
 		nbStatements=0;
 		try {
 			statement.getPartStatement().execute();
-		} catch (IllegalActionPointsException e) {
-			
+		} catch (IllegalActionPointsException | StopProgramException e) {
+			World world = Self.getWorm().getWorld();
+			world.startNextTurn();
+			return;
 		}
-		
 		World world = Self.getWorm().getWorld();
 		world.startNextTurn();
+		ResetProgram();
 	}
 
-	public void setProgramStart() {
-		this.running = true;
-	}
-	public void setProgramStop() {
-		this.running = false;
-	}
-	public boolean isProgramRunning() {
-		return this.running;
-	}
 	
-	public boolean running;
+	public void ResetProgram() {
+		PartStatement.setAllExecuted(false);
+	}
 	
 	public void increaseNbStatements(){
 		nbStatements+=1;

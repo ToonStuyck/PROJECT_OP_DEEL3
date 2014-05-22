@@ -71,13 +71,14 @@ public class Statement {
 			if (!(Self.getWorm().isValidTurn(this.angle.getValue().getValue()))) {
 				throw new IllegalActionPointsException();
 			}
-			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (this.isNotExecuted())){
+			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (!this.isExecuted())){
 				Worm worm = Self.getWorm();
 				IActionHandler handler = worm.getProgram().getHandler();
 				handler.turn(worm, this.angle.getValue().getValue());
 				worm.getProgram().increaseNbStatements();
-				this.executedTrue();
+				setExecuted(true);
 			}
+			
 		}
 	}
 	
@@ -91,12 +92,12 @@ public class Statement {
 			if (!(Self.getWorm().isValidStep())) {
 				throw new IllegalActionPointsException();
 			}
-			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (this.isNotExecuted())){
+			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (!this.isExecuted())){
 				Worm worm = Self.getWorm();
 				IActionHandler handler = worm.getProgram().getHandler();
 				handler.move(worm);
 				worm.getProgram().increaseNbStatements();
-				this.executedTrue();
+				this.setExecuted(true);
 			}
 		}
 	}
@@ -111,12 +112,12 @@ public class Statement {
 			if (!(Self.getWorm().canJump())) {
 				throw new IllegalActionPointsException();
 			}
-			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (this.isNotExecuted())){
+			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (!this.isExecuted())){
 				Worm worm = Self.getWorm();
 				IActionHandler handler = worm.getProgram().getHandler();
 				handler.jump(worm);
 				worm.getProgram().increaseNbStatements();
-				this.executedTrue();
+				this.setExecuted(true);
 			}
 		}
 	}
@@ -129,12 +130,12 @@ public class Statement {
 		@Override
 		public void execute() {
 			if ((Self.getWorm().getProgram().getNbStatements()<1000)
-				&& (this.isNotExecuted())){
+				&& (!this.isExecuted())){
 				Worm worm = Self.getWorm();
 				IActionHandler handler = worm.getProgram().getHandler();
 				handler.toggleWeapon(worm);
 				worm.getProgram().increaseNbStatements();
-				this.executedTrue();
+				this.setExecuted(true);
 			}
 		}
 	}
@@ -152,12 +153,12 @@ public class Statement {
 			if (!(Self.getWorm().canShoot()) ) {
 				throw new IllegalActionPointsException();
 			}
-			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (this.isNotExecuted())){
+			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (!this.isExecuted())){
 				Worm worm = Self.getWorm();
 				IActionHandler handler = worm.getProgram().getHandler();
 				handler.fire(worm, (int) Math.round(yield.getValue().getValue()));
 				worm.getProgram().increaseNbStatements();
-				this.executedTrue();
+				this.setExecuted(true);
 			}
 		}
 	}
@@ -170,11 +171,11 @@ public class Statement {
 		@Override
 		public void execute() {
 			if ((Self.getWorm().getProgram().getNbStatements()<1000) 
-				&& (this.isNotExecuted())){
+				&& (!this.isExecuted())){
 				Worm worm = Self.getWorm();
 				worm.getWorld().startNextTurn();
 				worm.getProgram().increaseNbStatements();
-				this.executedTrue();
+				this.setExecuted(true);
 			}
 		}
 	}
@@ -220,13 +221,17 @@ public class Statement {
 		public Expression value;
 		
 		@Override
-		public void execute() {
-			if (Self.getWorm().getProgram().getNbStatements()<1000){
-				Worm worm = Self.getWorm();
-	        	worm.getProgram().getGlobals().put(name, value.getPartExpression().getValue());
-	        	worm.getProgram().increaseNbStatements();
-	        	}
-			
+		public void execute() throws StopProgramException{
+			if (!(Self.getWorm().getProgram().getNbStatements()<1000)){
+				throw new StopProgramException();
+			}
+			if (this.isExecuted()){
+				throw new StopProgramException();
+			}
+			Worm worm = Self.getWorm();
+        	worm.getProgram().getGlobals().put(name, value.getPartExpression().getValue());
+        	worm.getProgram().increaseNbStatements();
+        	this.setExecuted(true);
 		}
 	}
 	
@@ -242,17 +247,22 @@ public class Statement {
 		public Statement other;
 		
 		@Override
-		public void execute() {
-			if (Self.getWorm().getProgram().getNbStatements()<1000){
-				if((boolean) condition.getPartExpression().getValue().getValue()){
-					Self.getWorm().getProgram().increaseNbStatements();
-					then.getPartStatement().execute();
-				}
-				else {
-					Self.getWorm().getProgram().increaseNbStatements();
-					other.getPartStatement().execute();
-				}
+		public void execute() throws StopProgramException{
+			if (!(Self.getWorm().getProgram().getNbStatements()<1000)){
+				throw new StopProgramException();
 			}
+			if (this.isExecuted()){
+				throw new StopProgramException();
+			}
+			if((boolean) condition.getPartExpression().getValue().getValue()){
+				Self.getWorm().getProgram().increaseNbStatements();
+				then.getPartStatement().execute();
+			}
+			else {
+				Self.getWorm().getProgram().increaseNbStatements();
+				other.getPartStatement().execute();
+			}
+			this.setExecuted(true);
 		}
 
 		public List<Statement> getStatements() {
@@ -272,13 +282,19 @@ public class Statement {
 		public Expression condition;
 		
 		@Override
-		public void execute() {
-			if (Self.getWorm().getProgram().getNbStatements()<1000){
-				while((boolean) condition.getPartExpression().getValue().getValue()){
-					Self.getWorm().getProgram().increaseNbStatements();
-					body.getPartStatement().execute();
-				}
+		public void execute() throws StopProgramException{
+			if (!(Self.getWorm().getProgram().getNbStatements()<1000)){
+				throw new StopProgramException();
 			}
+			if (this.isExecuted()){
+				throw new StopProgramException();
+			}
+			while((boolean) condition.getPartExpression().getValue().getValue()){
+				Self.getWorm().getProgram().increaseNbStatements();
+				body.getPartStatement().execute();
+				InLoopNotExecuted(this);
+			}
+			this.setExecuted(true);
 		}
 	}
 
@@ -294,34 +310,43 @@ public class Statement {
 		public worms.model.programs.ProgramFactory.ForeachType type;
 		
 		@Override
-		public void execute() {
-			if (Self.getWorm().getProgram().getNbStatements()<1000){
-				if (this.type == ForeachType.WORM) {
-					for (Worm w:Self.getWorm().getWorld().getWorms()) {
-						EntityType<Worm> worm =new EntityType<Worm>(w);
-						Self.getWorm().getProgram().getGlobals().put(name,worm);
-						body.getPartStatement().execute();
-					}
-				} else if (this.type == ForeachType.FOOD) {
-					for (Food f:Self.getWorm().getWorld().getFood()) {
-						EntityType<Food> food =new EntityType<Food>(f);
-						Self.getWorm().getProgram().getGlobals().put(name,food);
-						body.getPartStatement().execute();
-					}
-				} else {
-					for (Worm w:Self.getWorm().getWorld().getWorms()) {
-						EntityType<Worm> worm =new EntityType<Worm>(w);
-						Self.getWorm().getProgram().getGlobals().put(name,worm);
-						body.getPartStatement().execute();
-					}
-					for (Food f:Self.getWorm().getWorld().getFood()) {
-						EntityType<Food> food =new EntityType<Food>(f);
-						Self.getWorm().getProgram().getGlobals().put(name,food);
-						body.getPartStatement().execute();
-					}
-				}	
+		public void execute() throws StopProgramException {
+			if (!(Self.getWorm().getProgram().getNbStatements()<1000)){
+				throw new StopProgramException();
 			}
-			Self.getWorm().getProgram().increaseNbStatements();
+			if (this.isExecuted()){
+				throw new StopProgramException();
+			}
+			if (this.type == ForeachType.WORM) {
+				for (Worm w:Self.getWorm().getWorld().getWorms()) {
+					EntityType<Worm> worm =new EntityType<Worm>(w);
+					Self.getWorm().getProgram().getGlobals().put(name,worm);
+					body.getPartStatement().execute();
+					InLoopNotExecuted(this);
+				}
+			} else if (this.type == ForeachType.FOOD) {
+				for (Food f:Self.getWorm().getWorld().getFood()) {
+					EntityType<Food> food =new EntityType<Food>(f);
+					Self.getWorm().getProgram().getGlobals().put(name,food);
+					body.getPartStatement().execute();
+					InLoopNotExecuted(this);
+				}
+			} else {
+				for (Worm w:Self.getWorm().getWorld().getWorms()) {
+					EntityType<Worm> worm =new EntityType<Worm>(w);
+					Self.getWorm().getProgram().getGlobals().put(name,worm);
+					body.getPartStatement().execute();
+					InLoopNotExecuted(this);
+				}
+				for (Food f:Self.getWorm().getWorld().getFood()) {
+					EntityType<Food> food =new EntityType<Food>(f);
+					Self.getWorm().getProgram().getGlobals().put(name,food);
+					body.getPartStatement().execute();
+					InLoopNotExecuted(this);
+				}
+			}	
+		Self.getWorm().getProgram().increaseNbStatements();
+		this.setExecuted(true);
 		}
 	}
 	
@@ -334,13 +359,19 @@ public class Statement {
 		public List<Statement> statements;
 		
 		@Override
-		public void execute() {
-			if (Self.getWorm().getProgram().getNbStatements()<1000){
-				for (int i=0; i<this.statements.size(); i++) {
-					statements.get(i).getPartStatement().execute();
-				}
-				Self.getWorm().getProgram().increaseNbStatements();
+		public void execute() throws StopProgramException {
+			if (!(Self.getWorm().getProgram().getNbStatements()<1000)){
+				throw new StopProgramException();
 			}
+			if (this.isExecuted()){
+				throw new StopProgramException();
+			}
+			for (int i=0; i<this.statements.size(); i++) {
+				statements.get(i).getPartStatement().execute();
+				InLoopNotExecuted(this);
+			}
+			Self.getWorm().getProgram().increaseNbStatements();
+			this.setExecuted(true);
 		}
 	}
 	
@@ -353,13 +384,44 @@ public class Statement {
 		public Expression value;
 		
 		@Override
-		public void execute() {
-			if (Self.getWorm().getProgram().getNbStatements()<1000){
-				System.out.println(this.value.getPartExpression().getValue().getValue());
-				Self.getWorm().getProgram().increaseNbStatements();
+		public void execute() throws StopProgramException{
+			if (!(Self.getWorm().getProgram().getNbStatements()<1000)){
+				throw new StopProgramException();
 			}
+			if (this.isExecuted()){
+				throw new StopProgramException();
+			}
+			System.out.println(this.value.getPartExpression().getValue().getValue());
+			Self.getWorm().getProgram().increaseNbStatements();
+			this.setExecuted(true);
 		}
 	}
+	
+	public void InLoopNotExecuted(PartStatement stm) {
+		if (stm instanceof If) {
+			for (Statement statement: ((If)stm).getStatements()) {
+				statement.getPartStatement().setExecuted(false);
+				InLoopNotExecuted(statement.getPartStatement());
+			}
+		} else if (stm instanceof While) {
+			((While) stm).body.getPartStatement().setExecuted(false);
+			InLoopNotExecuted(((While) stm).body.getPartStatement());
+			
+		} else if (stm instanceof ForEach) {
+			((ForEach) stm).body.getPartStatement().setExecuted(false);
+			InLoopNotExecuted(((ForEach) stm).body.getPartStatement());
+		} else if (stm instanceof Sequence) {
+			for (Statement statement: ((Sequence)stm).statements) {
+				statement.getPartStatement().setExecuted(false);
+				InLoopNotExecuted(statement.getPartStatement());
+			}
+		}  
+	}
+
+		
+	
+	
+	
 }
 
 

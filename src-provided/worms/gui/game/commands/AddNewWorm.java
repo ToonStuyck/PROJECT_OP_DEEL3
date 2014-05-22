@@ -31,16 +31,12 @@ public class AddNewWorm extends InstantaneousCommand {
 
 	@Override
 	protected void doStartExecution() {
-		System.out.println("DEES gebuurt toch wel hé?");
 		if (withProgram) {
-			System.out.println("1");
 			String programText = readProgramText();
 			if (programText != null) {
-				System.out.println("2");
 				ParseOutcome<?> parsed = getFacade().parseProgram(programText,
 						getScreen().getProgramActionHandler());
 				if (parsed != null) {
-					System.out.println("3");
 					if (parsed.isSuccess()) {
 						Program program = ((Success) parsed).getResult();
 						if (getFacade().isWellFormed(program)) {
