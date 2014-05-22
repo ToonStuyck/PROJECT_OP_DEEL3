@@ -122,6 +122,7 @@ public class Expression {
 		
 		public DoubleType value;
 		
+		@Override
 		public DoubleType getValue() {
 			return this.value;
 		}
@@ -135,6 +136,7 @@ public class Expression {
 		
 		public BooleanType value;
 		
+		@Override
 		public BooleanType getValue() {
 			return this.value;
 		}
@@ -150,6 +152,7 @@ public class Expression {
 		public BooleanExpression left;
 		public BooleanExpression right;
 		
+		@Override
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() && this.right.getValue().getValue());
 		}
@@ -165,6 +168,7 @@ public class Expression {
 		public BooleanExpression left;
 		public BooleanExpression right;
 		
+		@Override
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() || this.right.getValue().getValue());
 		}
@@ -178,6 +182,7 @@ public class Expression {
 		
 		public BooleanExpression subject;
 		
+		@Override
 		public BooleanType getValue() {
 			return new BooleanType(!this.subject.getValue().getValue());
 		}
@@ -185,6 +190,7 @@ public class Expression {
 	
 	public class LogicNull extends PartExpression{
 
+		@Override
 		public EntityType<Double> getValue() {
 			return new EntityType<Double>(null);
 		}
@@ -260,6 +266,7 @@ public class Expression {
 	
 		public String name;
 		
+		@Override
 		public Type getValue(){
 			return Self.getWorm().getProgram().getGlobals().get(this.name);
 		}
@@ -275,6 +282,7 @@ public class Expression {
 		public DoubleExpression left;
 		public DoubleExpression right;
 		
+		@Override
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() < this.right.getValue().getValue());
 		}
@@ -290,6 +298,7 @@ public class Expression {
 		public DoubleExpression left;
 		public DoubleExpression right;
 		
+		@Override
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() > this.right.getValue().getValue());
 		}
@@ -306,6 +315,7 @@ public class Expression {
 		public DoubleExpression left;
 		public DoubleExpression right;
 		
+		@Override
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() <= this.right.getValue().getValue());
 		}
@@ -321,6 +331,7 @@ public class Expression {
 		public DoubleExpression left;
 		public DoubleExpression right;
 		
+		@Override
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() >= this.right.getValue().getValue());
 		}
@@ -336,6 +347,7 @@ public class Expression {
 		public DoubleExpression left;
 		public DoubleExpression right;
 		
+		@Override
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() == this.right.getValue().getValue());
 		}
@@ -351,6 +363,7 @@ public class Expression {
 		public DoubleExpression left;
 		public DoubleExpression right;
 		
+		@Override
 		public BooleanType getValue() {
 			return new BooleanType(this.left.getValue().getValue() != this.right.getValue().getValue());
 		}
@@ -366,6 +379,7 @@ public class Expression {
 		public DoubleExpression left;
 		public DoubleExpression right;
 		
+		@Override
 		public DoubleType getValue() {
 			return new DoubleType(this.left.getValue().getValue() + this.right.getValue().getValue());
 		}
@@ -381,6 +395,7 @@ public class Expression {
 		public DoubleExpression left;
 		public DoubleExpression right;
 		
+		@Override
 		public DoubleType getValue() {
 			return new DoubleType(this.left.getValue().getValue() - this.right.getValue().getValue());
 		}
@@ -396,6 +411,7 @@ public class Expression {
 		public DoubleExpression left;
 		public DoubleExpression right;
 		
+		@Override
 		public DoubleType getValue() {
 			return new DoubleType(this.left.getValue().getValue() * this.right.getValue().getValue());
 		}
@@ -411,6 +427,7 @@ public class Expression {
 		public DoubleExpression left;
 		public DoubleExpression right;
 		
+		@Override
 		public DoubleType getValue() {
 			return new DoubleType(this.left.getValue().getValue() / this.right.getValue().getValue());
 		}
@@ -424,6 +441,7 @@ public class Expression {
 		
 		public DoubleExpression subject;
 		
+		@Override
 		public DoubleType getValue() {
 			return new DoubleType(Math.sqrt(this.subject.getValue().getValue()));
 		}
@@ -437,6 +455,7 @@ public class Expression {
 		
 		public DoubleExpression subject;
 		
+		@Override
 		public DoubleType getValue() {
 			return new DoubleType(Math.sin(this.subject.getValue().getValue()));
 		}
@@ -450,6 +469,7 @@ public class Expression {
 		
 		public DoubleExpression subject;
 		
+		@Override
 		public DoubleType getValue() {
 			return new DoubleType(Math.cos(this.subject.getValue().getValue()));
 		}

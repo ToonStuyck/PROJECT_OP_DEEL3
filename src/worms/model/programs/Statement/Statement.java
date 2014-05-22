@@ -66,10 +66,12 @@ public class Statement {
 		public Program program;
 		public DoubleExpression angle;
 		
+		@Override
 		public void execute() {
-			if ((Self.getWorm().getProgram().getNbStatements()<1000) 
-					&& (Self.getWorm().isValidTurn(this.angle.getValue().getValue())) 
-					&& (this.isNotExecuted())){
+			if (!(Self.getWorm().isValidTurn(this.angle.getValue().getValue()))) {
+				throw new IllegalActionPointsException();
+			}
+			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (this.isNotExecuted())){
 				Worm worm = Self.getWorm();
 				IActionHandler handler = worm.getProgram().getHandler();
 				handler.turn(worm, this.angle.getValue().getValue());
@@ -84,9 +86,12 @@ public class Statement {
 		public ActionMove() {
 		}
 		
-		public void execute() {
-			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (Self.getWorm().isValidStep()) 
-					&& (this.isNotExecuted())){
+		@Override
+		public void execute() throws IllegalActionPointsException{
+			if (!(Self.getWorm().isValidStep())) {
+				throw new IllegalActionPointsException();
+			}
+			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (this.isNotExecuted())){
 				Worm worm = Self.getWorm();
 				IActionHandler handler = worm.getProgram().getHandler();
 				handler.move(worm);
@@ -101,9 +106,12 @@ public class Statement {
 		public ActionJump() {
 		}
 		
-		public void execute() {
-			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (Self.getWorm().canJump()) 
-					&& (this.isNotExecuted())){
+		@Override
+		public void execute() throws IllegalActionPointsException{
+			if (!(Self.getWorm().canJump())) {
+				throw new IllegalActionPointsException();
+			}
+			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (this.isNotExecuted())){
 				Worm worm = Self.getWorm();
 				IActionHandler handler = worm.getProgram().getHandler();
 				handler.jump(worm);
@@ -118,6 +126,7 @@ public class Statement {
 		public ActionToggleWeap() {
 		}
 		
+		@Override
 		public void execute() {
 			if ((Self.getWorm().getProgram().getNbStatements()<1000)
 				&& (this.isNotExecuted())){
@@ -132,15 +141,18 @@ public class Statement {
 	
 	public class ActionFire extends PartStatementAction {
 		
-		public ActionFire(Expression yield) {
+		public ActionFire(Expression yield) throws IllegalActionPointsException{
 			this.yield = (DoubleExpression) yield.getPartExpression();
 		}
 	
 		public DoubleExpression yield;
 		
+		@Override
 		public void execute() {
-			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (Self.getWorm().canShoot()) 
-					&& (this.isNotExecuted())){
+			if (!(Self.getWorm().canShoot()) ) {
+				throw new IllegalActionPointsException();
+			}
+			if ((Self.getWorm().getProgram().getNbStatements()<1000) && (this.isNotExecuted())){
 				Worm worm = Self.getWorm();
 				IActionHandler handler = worm.getProgram().getHandler();
 				handler.fire(worm, (int) Math.round(yield.getValue().getValue()));
@@ -155,6 +167,7 @@ public class Statement {
 		public ActionSkip() {
 		}
 		
+		@Override
 		public void execute() {
 			if ((Self.getWorm().getProgram().getNbStatements()<1000) 
 				&& (this.isNotExecuted())){
@@ -228,6 +241,7 @@ public class Statement {
 		public Statement then;
 		public Statement other;
 		
+		@Override
 		public void execute() {
 			if (Self.getWorm().getProgram().getNbStatements()<1000){
 				if((boolean) condition.getPartExpression().getValue().getValue()){
@@ -257,6 +271,7 @@ public class Statement {
 		public Statement body;
 		public Expression condition;
 		
+		@Override
 		public void execute() {
 			if (Self.getWorm().getProgram().getNbStatements()<1000){
 				while((boolean) condition.getPartExpression().getValue().getValue()){
@@ -278,6 +293,7 @@ public class Statement {
 		public String name;
 		public worms.model.programs.ProgramFactory.ForeachType type;
 		
+		@Override
 		public void execute() {
 			if (Self.getWorm().getProgram().getNbStatements()<1000){
 				if (this.type == ForeachType.WORM) {

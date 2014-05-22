@@ -2,6 +2,7 @@ package worms.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,10 +26,10 @@ import be.kuleuven.cs.som.annotate.*;
  * @invar	The hitpoints of a worm must always be equal to or smaller than the maximum hitpoints.
  * 		  	| this.getHitPoints() =< this.getMaxHitPoints() 
  * 	
-  * @author Toon Stuyck
+ * @author 	Toon Stuyck
  * 			Toon Van Deun
  * 			Burgerlijk Ingenieur
- * 			https://github.com/ToonVanDeun/PROJECT_OP_DEEL2
+ * 			https://github.com/ToonStuyck/PROJECT_OP_DEEL3
  * @version 2.0
  */
 public class Worm extends Object {
@@ -46,6 +47,8 @@ public class Worm extends Object {
 	 * 			The Radius of the worm.
 	 * @param name
 	 * 			The name of the worm.
+	 * @param program
+	 * 			The program the worm will execute.
 	 * @pre		The world must be valid.
 	 * 			|world!=null
 	 * @pre		The positions of the worm must be valid positions.
@@ -82,6 +85,11 @@ public class Worm extends Object {
 	 * @post	The lower bound of the radius is set to the given lower bound.
 	 * 			Or when no lower bound is given it's set to 0.25 as it is in this case.
 	 * 			|new.getRadiusLowerBound() ==  0.25
+	 * @post 	The program is set correctly
+	 * 		 	The worms is added to list of worms running this program.
+	 * 			| if(program != null)
+	 * 			| then 	new.getProgram() == program
+	 * 			|		program.worms.contains(this) == true
 	 */
 	@Raw
 	public Worm(World world, double xpos, double ypos, double direction, double radius, String name, Program program){
@@ -129,6 +137,11 @@ public class Worm extends Object {
 	 * @post	The lower bound of the radius is set to the given lower bound.
 	 * 			Or when no lower bound is given it's set to 0.25 as it is in this case.
 	 * 			|new.getRadiusLowerBound() ==  0.25
+	 * @post 	The program is set correctly
+	 * 		 	The worms is added to list of worms running this program.
+	 * 			| if(program != null)
+	 * 			| then 	new.getProgram() == program
+	 * 			|		program.worms.contains(this) == true
 	 */
 	@Raw
 	public Worm(World world, Program program){
@@ -145,7 +158,13 @@ public class Worm extends Object {
 	}
 	
 	/**
-	 * Returns true if the worm has a program.
+	 * Sets the worms' program to the given program.
+	 * And adds the worm to the list of worms running this program.
+	 * @post The program is set correctly
+	 * 		 The worms is added to list of worms running this program.
+	 * 			| if(program != null)
+	 * 			| then 	new.getProgram() == program
+	 * 			|		program.worms.contains(this) == true
 	 */
 	public void setProgram(Program program) {
 		this.program = program;
@@ -166,6 +185,23 @@ public class Worm extends Object {
 	 */
 	public Program getProgram() {
 		return this.program ;
+	}
+	
+	
+	public void setMarkerProgram(int line, int column) {
+		this.programPos[0] = line;
+		this.programPos[1] = column;
+	}
+	
+	public int[] programPos = new int[2];
+	
+	public int[] getMarkerProgram(int line, int column) {
+		return this.programPos;
+	}
+	
+	public void resetMarkerProgram() {
+		this.programPos[0] = 0;
+		this.programPos[1] = 0;
 	}
 	
 	

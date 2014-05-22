@@ -23,7 +23,7 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @author 	Toon Stuyck
  * 			Toon Van Deun
  * 			Burgerlijk Ingenieur
- * 			https://github.com/ToonVanDeun/PROJECT_OP_DEEL2
+ * 			https://github.com/ToonStuyck/PROJECT_OP_DEEL3
  * @version 2.0
  */
 public class World {

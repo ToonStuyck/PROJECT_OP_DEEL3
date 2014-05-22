@@ -1,11 +1,13 @@
 package worms.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import worms.gui.game.IActionHandler;
 import worms.model.programs.Expression.Expression.Self;
+import worms.model.programs.Statement.IllegalActionPointsException;
 import worms.model.programs.Statement.Statement;
 import worms.model.programs.Statement.Statement.ForEach;
 import worms.model.programs.Statement.Statement.If;
@@ -43,12 +45,17 @@ public class Program {
 	
 	public IActionHandler getHandler(){
 		return this.actionHandler;
-	}
+	}	
 
 	public void runProgram(){
 		setProgramStart();
 		nbStatements=0;
-		statement.getPartStatement().execute();
+		try {
+			statement.getPartStatement().execute();
+		} catch (IllegalActionPointsException e) {
+			
+		}
+		
 		World world = Self.getWorm().getWorld();
 		world.startNextTurn();
 	}
