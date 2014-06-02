@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.5" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="worms.model.programs.Type.DoubleType" project="PROJECT_OP_DEEL3" 
+    file="/PROJECT_OP_DEEL3/src/worms/model/programs/Type/DoubleType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="124" width="171" x="186" y="331"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="worms.model.programs.Type.Type" project="PROJECT_OP_DEEL3" 
+    file="/PROJECT_OP_DEEL3/src/worms/model/programs/Type/Type.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="105" width="171" x="397" y="186"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="worms.model.programs.Type.EntityType" project="PROJECT_OP_DEEL3" 
+    file="/PROJECT_OP_DEEL3/src/worms/model/programs/Type/EntityType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="124" width="171" x="397" y="331"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="worms.model.programs.Type.BooleanType" project="PROJECT_OP_DEEL3" 
+    file="/PROJECT_OP_DEEL3/src/worms/model/programs/Type/BooleanType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="124" width="171" x="608" y="331"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="5">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="6">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="7">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
